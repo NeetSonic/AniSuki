@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DataAccess.cs" />
     <Compile Include="View\FrmManageProducer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +69,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\FrmManageProducer.resx">
+      <DependentUpon>FrmManageProducer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Templete\FrmBase.resx">
       <DependentUpon>FrmBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -85,7 +89,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Util\" />
+    <ProjectReference Include="..\..\Neetsonic\Neetsonic\Neetsonic.csproj">
+      <Project>{028b1ec0-07a5-4216-9451-02787471acbf}</Project>
+      <Name>Neetsonic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
