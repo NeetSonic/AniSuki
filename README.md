@@ -1,0 +1,2 @@
+# AniSuki
+Anime management works.
