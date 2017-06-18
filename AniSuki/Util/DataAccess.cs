@@ -1,4 +1,7 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using AniSuki.Model;
 using Neetsonic.Tool.Database;
 
 namespace AniSuki.Util
@@ -25,6 +28,11 @@ namespace AniSuki.Util
         private static DataSet ExecuteQuery(string sql)
         {
             return SqlExecutor.ExecuteQuery(ConnectionString, sql);
+        }
+
+        public static IEnumerable<Producer> GetProducer()
+        {
+            return from DataRow dr in ExecuteQuery(@"SELECT * FROM Producer").Tables[0].Rows select Producer.FromDataRow(dr);
         }
     }
 }
