@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -36,9 +37,19 @@ namespace AniSuki.Util
             return from DataRow dr in ExecuteQuery(@"SELECT * FROM Producer").Tables[0].Rows select Producer.FromDataRow(dr);
         }
 
-        public static void Test(string name)
+        public static int NewProducer(Producer producer)
         {
-            ExecuteNonQuery(@"INSERT INTO Producer(Name) VALUES(@name)", new []{new SqlParameter(nameof(name), SqlDbType.NVarChar)});
+            return Convert.ToInt32(ExecuteScalar(@"INSERT INTO Producer(Name, Website) VALUES(@Name, @Website) SELECT MAX(ID) FROM Producer", new []{new SqlParameter(@"@Name", SqlDbType.NVarChar){Value = producer.Name}, new SqlParameter(@"@Website", SqlDbType.NVarChar){Value = producer.Website} }));
+        }
+
+        public static void UpdateProducer(Producer producer)
+        {
+            ExecuteNonQuery(@"UPDATE Producer SET Name = @Name, Website = @Website WHERE ID = @ID", new []{new SqlParameter(@"@Name", SqlDbType.NVarChar){Value = producer.Name}, new SqlParameter(@"@Website", SqlDbType.NVarChar){Value = producer.Website}, new SqlParameter(@"@ID", SqlDbType.Int){Value = producer.ID} });
+        }
+
+        public static void DeleteProducer(Producer producer)
+        {
+            ExecuteNonQuery(@"DELETE FROM Producer WHERE ID = @ID", new []{new SqlParameter(@"@ID", SqlDbType.Int){Value = producer.ID} });
         }
     }
 }
