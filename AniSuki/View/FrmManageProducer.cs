@@ -6,15 +6,24 @@ using AniSuki.Util;
 using AniSuki.View.Control;
 using AniSuki.View.Templete;
 using Neetsonic.Control;
+using Neetsonic.Tool;
 using TextBox = Neetsonic.Control.TextBox;
 
 namespace AniSuki.View
 {
     public partial class FrmManageProducer : FrmBase
     {
+        public FrmManageProducer()
+        {
+            InitializeComponent();
+            InitControl();
+            BindEvent();
+        }
+
         private ProducerList _producers;
         private Producer _currProducer = new Producer();
         private Producer _selectedProducer;
+
         private ProducerList Producers
         {
             get => _producers;
@@ -42,6 +51,7 @@ namespace AniSuki.View
                 OnSelectedProducerChanged();
             }
         }
+
         private void OnSelectedProducerChanged()
         {
             CurrProducer = null == SelectedProducer ? new Producer() : SelectedProducer.ShollowClone();
@@ -52,19 +62,10 @@ namespace AniSuki.View
             txtWebsite.Text = CurrProducer?.Website;
             btnNew.Enabled = !string.IsNullOrWhiteSpace(CurrProducer?.Name);
             btnUpdate.Enabled = btnNew.Enabled && null != SelectedProducer;
-            btnDelete.Enabled = null != SelectedProducer;
         }
-
         private void OnProducersChanged()
         {
             dgvProducer.DataList = Producers;
-        }
-
-        public FrmManageProducer()
-        {
-            InitializeComponent();
-            InitControl();
-            BindEvent();
         }
 
         private void InitControl()
@@ -92,9 +93,7 @@ namespace AniSuki.View
             });
             btnNew.Enabled = false;
             btnUpdate.Enabled = false;
-            btnDelete.Enabled = false;
         }
-
         private void BindEvent()
         {
             txtName.TextChanged += (sender, args) =>
@@ -102,13 +101,11 @@ namespace AniSuki.View
                 CurrProducer.Name = ((TextBox)sender).Text;
                 OnCurrProducerChanged();
             };
-
             txtWebsite.TextChanged += (sender, args) =>
             {
                 CurrProducer.Website = ((TextBox)sender).Text;
                 OnCurrProducerChanged();
             };
-
             dgvProducer.SelectionChanged += (sender, args) =>
             {
                 SelectedProducer = ((ProducerDataGridView)sender).SelectedItem;
@@ -119,8 +116,7 @@ namespace AniSuki.View
         {
             Producers = new ProducerList(DataAccess.GetProducer().ToList());
         }
-
-        private void btnNew_Click(object sender, EventArgs e)
+        private void BtnNew_Click(object sender, EventArgs e)
         {
             try
             {
@@ -129,11 +125,10 @@ namespace AniSuki.View
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBoxEx.Error(ex.Message);
             }
         }
-
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void BtnUpdate_Click(object sender, EventArgs e)
         {
             try
             {
@@ -146,20 +141,24 @@ namespace AniSuki.View
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBoxEx.Error(ex.Message);
             }
         }
-
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void CmsDgvProducer_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = dgvProducer.SelectedItem == null;
+        }
+        private void MenuDelete_Click(object sender, EventArgs e)
         {
             try
             {
+                if(DialogResult.OK != MessageBoxEx.Confirm($"确定要删除 \"{CurrProducer.Name}\" 吗？")) return;
                 DataAccess.DeleteProducer(CurrProducer);
                 dgvProducer.RemoveCurrSelectedItem();
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBoxEx.Error(ex.Message);
             }
         }
     }
