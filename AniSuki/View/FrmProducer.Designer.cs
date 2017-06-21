@@ -1,6 +1,6 @@
 ﻿namespace AniSuki.View
 {
-    partial class FrmManageProducer
+    partial class FrmProducer
     {
         /// <summary>
         /// Required designer variable.
@@ -151,7 +151,7 @@
             this.Controls.Add(this.dgvProducer);
             this.Name = "FrmManageProducer";
             this.Text = "管理出版公司";
-            this.Load += new System.EventHandler(this.FrmManageProducer_Load);
+            this.Load += new System.EventHandler(this.FrmProducer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducer)).EndInit();
             this.cmsDgvProducer.ResumeLayout(false);
             this.ResumeLayout(false);

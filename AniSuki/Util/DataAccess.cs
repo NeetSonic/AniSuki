@@ -51,5 +51,25 @@ namespace AniSuki.Util
         {
             ExecuteNonQuery(@"DELETE FROM Producer WHERE ID = @ID", new []{new SqlParameter(@"@ID", SqlDbType.Int){Value = producer.ID} });
         }
+
+        public static IEnumerable<Resolution> GetResolution()
+        {
+            return from DataRow dr in ExecuteQuery(@"SELECT * FROM Resolution").Tables[0].Rows select Resolution.FromDataRow(dr);
+        }
+
+        public static int NewResolutionr(Resolution resolution)
+        {
+            return Convert.ToInt32(ExecuteScalar(@"INSERT INTO Resolution(Width, Height) VALUES(@Width, @Height) SELECT MAX(ID) FROM Resolution", new []{new SqlParameter(@"@Width", SqlDbType.SmallInt){Value = resolution.Width}, new SqlParameter(@"@Height", SqlDbType.SmallInt){Value = resolution.Height} }));
+        }
+
+        public static void UpdateResolution(Resolution resolution)
+        {
+            ExecuteNonQuery(@"UPDATE Resolution SET Width = @Width, Height = @Height WHERE ID = @ID", new []{new SqlParameter(@"@Width", SqlDbType.SmallInt){Value = resolution.Width}, new SqlParameter(@"@Height", SqlDbType.SmallInt){Value = resolution.Height}, new SqlParameter(@"@ID", SqlDbType.Int){Value = resolution.ID} });
+        }
+
+        public static void DeleteResolution(Resolution resolution)
+        {
+            ExecuteNonQuery(@"DELETE FROM Resolution WHERE ID = @ID", new []{new SqlParameter(@"@ID", SqlDbType.Int){Value = resolution.ID} });
+        }
     }
 }

@@ -20,7 +20,6 @@ namespace AniSuki.Model
                 Website = dr.Field<string>(nameof(Website))
             };
         }
-
         public Producer ShollowClone()
         {
             return (Producer)MemberwiseClone();
@@ -33,17 +32,17 @@ namespace AniSuki.Model
 
         protected override int Cmp(PropertyDescriptor property, ListSortDirection direction, Producer x, Producer y)
         {
-            int nFlag = direction == ListSortDirection.Ascending ? 1 : -1;
+            int flag = direction == ListSortDirection.Ascending ? 1 : -1;
             switch(property.Name)
             {
                 case @"Name":
                 {
-                    return nFlag * string.Compare(x.Name, y.Name, StringComparison.CurrentCulture);
+                    return flag * string.Compare(x.Name, y.Name, StringComparison.CurrentCulture);
                 }
                 case @"Website":
                 {
-                    int nRet = string.Compare(x.Website, y.Website, StringComparison.CurrentCulture);
-                    return nFlag * (nRet == 0 ? string.Compare(x.Name, y.Name, StringComparison.CurrentCulture) : nRet);
+                    int ret = string.Compare(x.Website, y.Website, StringComparison.CurrentCulture);
+                    return flag * (ret == 0 ? string.Compare(x.Name, y.Name, StringComparison.CurrentCulture) : ret);
                 }
                 default:
                 {

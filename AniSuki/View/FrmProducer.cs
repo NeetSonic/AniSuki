@@ -1,19 +1,19 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using AniSuki.Model;
 using AniSuki.Util;
 using AniSuki.View.Control;
 using AniSuki.View.Templete;
-using Neetsonic.Control;
 using Neetsonic.Tool;
 using TextBox = Neetsonic.Control.TextBox;
 
 namespace AniSuki.View
 {
-    public partial class FrmManageProducer : FrmBase
+    public partial class FrmProducer : FrmBase
     {
-        public FrmManageProducer()
+        public FrmProducer()
         {
             InitializeComponent();
             InitControl();
@@ -70,27 +70,7 @@ namespace AniSuki.View
 
         private void InitControl()
         {
-            dgvProducer.SetColumns(new[]
-            {
-                new BindingDataGridViewColumn
-                {
-                    NameAndDataPropertyName = @"ID",
-                    HeaderText = @"编号",
-                    Visible = false
-                },
-                new BindingDataGridViewColumn
-                {
-                    NameAndDataPropertyName = @"Name",
-                    HeaderText = @"公司名称"
-                },
-                new BindingDataGridViewColumn
-                {
-                    NameAndDataPropertyName = @"Website",
-                    HeaderText = @"官方网站",
-                    Type = typeof(DataGridViewLinkColumn),
-                    SortMode = DataGridViewColumnSortMode.NotSortable
-                }
-            });
+            dgvProducer.SetColumns();
             btnNew.Enabled = false;
             btnUpdate.Enabled = false;
         }
@@ -106,13 +86,10 @@ namespace AniSuki.View
                 CurrProducer.Website = ((TextBox)sender).Text;
                 OnCurrProducerChanged();
             };
-            dgvProducer.SelectionChanged += (sender, args) =>
-            {
-                SelectedProducer = ((ProducerDataGridView)sender).SelectedItem;
-            };
+            dgvProducer.SelectionChanged += (sender, args) => SelectedProducer = ((ProducerDataGridView)sender).SelectedItem;
         }
 
-        private void FrmManageProducer_Load(object sender, EventArgs e)
+        private void FrmProducer_Load(object sender, EventArgs e)
         {
             Producers = new ProducerList(DataAccess.GetProducer().ToList());
         }
@@ -144,7 +121,7 @@ namespace AniSuki.View
                 MessageBoxEx.Error(ex.Message);
             }
         }
-        private void CmsDgvProducer_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void CmsDgvProducer_Opening(object sender, CancelEventArgs e)
         {
             e.Cancel = dgvProducer.SelectedItem == null;
         }
