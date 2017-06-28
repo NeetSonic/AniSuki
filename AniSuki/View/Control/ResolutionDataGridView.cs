@@ -1,6 +1,4 @@
-﻿
-using System.Windows.Forms;
-using AniSuki.Model;
+﻿using AniSuki.Model;
 using Neetsonic.Control;
 
 namespace AniSuki.View.Control
@@ -14,7 +12,7 @@ namespace AniSuki.View.Control
 
         public void SetColumns()
         {
-            SetColumns(new[]
+            SetColumnsCore(new[]
             {
                 new BindingDataGridViewColumn
                 {

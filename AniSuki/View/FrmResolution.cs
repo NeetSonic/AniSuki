@@ -97,7 +97,7 @@ namespace AniSuki.View
         {
             try
             {
-                CurrResolution.ID = DataAccess.NewResolutionr(CurrResolution);
+                CurrResolution.ID = DataAccess.NewResolution(CurrResolution);
                 dgvResolution.AddItem(CurrResolution.ShollowClone());
             }
             catch(Exception ex)

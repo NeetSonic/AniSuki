@@ -39,11 +39,6 @@ namespace AniSuki.Model
                 {
                     return flag * string.Compare(x.Name, y.Name, StringComparison.CurrentCulture);
                 }
-                case @"Website":
-                {
-                    int ret = string.Compare(x.Website, y.Website, StringComparison.CurrentCulture);
-                    return flag * (ret == 0 ? string.Compare(x.Name, y.Name, StringComparison.CurrentCulture) : ret);
-                }
                 default:
                 {
                     return 0;
