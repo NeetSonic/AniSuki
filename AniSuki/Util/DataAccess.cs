@@ -77,5 +77,21 @@ namespace AniSuki.Util
         {
             ExecuteNonQuery(@"DELETE FROM Tag WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = tag.ID}});
         }
+        public static IEnumerable<VoiceActor> GetVoiceActor()
+        {
+            return from DataRow dr in ExecuteQuery(@"SELECT * FROM VoiceActor").Tables[0].Rows select VoiceActor.FromDataRow(dr);
+        }
+        public static int NewVoiceActor(VoiceActor VoiceActor)
+        {
+            return Convert.ToInt32(ExecuteScalar(@"INSERT INTO VoiceActor(Name) VALUES(@Name) SELECT MAX(ID) FROM VoiceActor", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = VoiceActor.Name}}));
+        }
+        public static void UpdateVoiceActor(VoiceActor VoiceActor)
+        {
+            ExecuteNonQuery(@"UPDATE VoiceActor SET Name = @Name WHERE ID = @ID", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = VoiceActor.Name}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}});
+        }
+        public static void DeleteVoiceActor(VoiceActor VoiceActor)
+        {
+            ExecuteNonQuery(@"DELETE FROM VoiceActor WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}});
+        }
     }
 }

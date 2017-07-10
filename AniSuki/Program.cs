@@ -14,7 +14,7 @@ namespace AniSuki
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmTag());
+            Application.Run(new FrmMain());
         }
     }
 }
