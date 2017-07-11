@@ -28,5 +28,10 @@ namespace AniSuki.View
         {
             new FrmVoiceActor().ShowDialog();
         }
+
+        private void btnNewAnime_Click(object sender, System.EventArgs e)
+        {
+            new FrmNewAnime().ShowDialog();
+        }
     }
 }

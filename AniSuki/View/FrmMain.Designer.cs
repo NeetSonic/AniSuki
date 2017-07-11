@@ -34,6 +34,7 @@
             this.menuResolution = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTag = new System.Windows.Forms.ToolStripMenuItem();
             this.menuVoiceActor = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnNewAnime = new System.Windows.Forms.Button();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,11 +87,23 @@
             this.menuVoiceActor.Text = "声优";
             this.menuVoiceActor.Click += new System.EventHandler(this.MenuVoiceActor_Click);
             // 
+            // btnNewAnime
+            // 
+            this.btnNewAnime.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnNewAnime.Location = new System.Drawing.Point(12, 154);
+            this.btnNewAnime.Name = "btnNewAnime";
+            this.btnNewAnime.Size = new System.Drawing.Size(106, 49);
+            this.btnNewAnime.TabIndex = 1;
+            this.btnNewAnime.Text = "添加动画";
+            this.btnNewAnime.UseVisualStyleBackColor = true;
+            this.btnNewAnime.Click += new System.EventHandler(this.btnNewAnime_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 361);
+            this.Controls.Add(this.btnNewAnime);
             this.Controls.Add(this.menuMain);
             this.MainMenuStrip = this.menuMain;
             this.Name = "FrmMain";
@@ -110,5 +123,6 @@
         private System.Windows.Forms.ToolStripMenuItem menuResolution;
         private System.Windows.Forms.ToolStripMenuItem menuTag;
         private System.Windows.Forms.ToolStripMenuItem menuVoiceActor;
+        private System.Windows.Forms.Button btnNewAnime;
     }
 }

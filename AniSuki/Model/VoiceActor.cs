@@ -5,7 +5,7 @@ using System.Data;
 
 namespace AniSuki.Model
 {
-    public class VoiceActor
+    public sealed class VoiceActor
     {
         public int ID{ get; set; }
         public string Name{ get; set; }
