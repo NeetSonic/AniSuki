@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using AniSuki.Model;
+using AniSuki.Util;
 using AniSuki.View.Functional;
 using AniSuki.View.Templete;
+using Neetsonic.Tool;
 
 namespace AniSuki.View
 {
@@ -15,10 +19,34 @@ namespace AniSuki.View
             InitControl();
         }
 
+        private IList<Resolution> _resolutions;
+
+        private IList<Resolution> Resolutions
+        {
+            get => _resolutions;
+            set
+            {
+                _resolutions = value;
+                OnResolutionsChanged();
+            }
+        }
+        private void OnResolutionsChanged()
+        {
+            cmbResolution.DataSource = Resolutions;
+            cmbResolution.DisplayMember = @"ResolutionString";
+            cmbResolution.ValueMember = @"ID";
+            cmbResolution.SelectedItem = null;
+        }
+
         private void InitControl()
         {
             dgvAnimeFile.SetColumns();
             dgvAnimeFile.DataList = new AnimeFileList();
+        }
+
+        private void LoadResolutions()
+        {
+            Resolutions = DataAccess.GetResolution().ToList();
         }
 
         private void BtnNewFile_Click(object sender, EventArgs e)
@@ -30,7 +58,37 @@ namespace AniSuki.View
             };
             if(DialogResult.OK == fileDlg.ShowDialog())
             {
-                dgvAnimeFile.AddRangeUnique(fileDlg.FileNames);
+                Resolution maxRes = (Resolution)cmbResolution.SelectedItem;
+                foreach(string filePath in fileDlg.FileNames)
+                {
+                    if(dgvAnimeFile.DataList.All(file => file.FilePath != filePath))
+                    {
+                        if(MediaInfoTool.IsVideo(filePath))
+                        {
+                            Resolution currRes = new Resolution(MediaInfoTool.GetVideoRes(filePath));
+                            if(currRes > maxRes)
+                            {
+                                maxRes = currRes;
+                            }
+                        }
+                        dgvAnimeFile.AddItem(new AnimeFile(filePath));
+                    }
+                }
+
+                if(null != maxRes)
+                {
+                    Resolution theRes = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
+                    if(null != theRes)
+                    {
+                        cmbResolution.SelectedItem = theRes;
+                    }
+                    else
+                    {
+                        DataAccess.NewResolution(maxRes);
+                        LoadResolutions();
+                        cmbResolution.SelectedItem = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
+                    }
+                }
             }
         }
 
@@ -41,6 +99,11 @@ namespace AniSuki.View
             {
                 dgvAnimeFile.UpdateCurrSelectedItem((ref AnimeFile file) => file.Rename = Path.ChangeExtension(frmRename.NewName, Path.GetExtension(file.FilePath)));
             }
+        }
+
+        private void FrmNewAnime_Load(object sender, EventArgs e)
+        {
+            LoadResolutions();
         }
     }
 }

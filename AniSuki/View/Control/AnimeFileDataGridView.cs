@@ -11,16 +11,7 @@ namespace AniSuki.View.Control
         {
             InitializeComponent();
         }
-        public void AddRangeUnique(IEnumerable<string> filePaths)
-        {
-            foreach(string filePath in filePaths)
-            {
-                if(DataList.All(file => file.FilePath != filePath))
-                {
-                    AddItem(new AnimeFile(filePath));
-                }
-            }
-        }
+
         public void SetColumns()
         {
             SetColumnsCore(new[]
