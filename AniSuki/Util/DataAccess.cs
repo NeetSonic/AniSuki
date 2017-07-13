@@ -31,7 +31,7 @@ namespace AniSuki.Util
         }
         public static IEnumerable<Producer> GetProducer()
         {
-            return from DataRow dr in ExecuteQuery(@"SELECT * FROM Producer").Tables[0].Rows select Producer.FromDataRow(dr);
+            return from DataRow dr in ExecuteQuery(@"SELECT * FROM Producer ORDER BY Name ASC").Tables[0].Rows select Producer.FromDataRow(dr);
         }
         public static int NewProducer(Producer producer)
         {
@@ -63,7 +63,7 @@ namespace AniSuki.Util
         }
         public static IEnumerable<Tag> GetTag()
         {
-            return from DataRow dr in ExecuteQuery(@"SELECT * FROM Tag").Tables[0].Rows select Tag.FromDataRow(dr);
+            return from DataRow dr in ExecuteQuery(@"SELECT * FROM Tag ORDER BY Name ASC").Tables[0].Rows select Tag.FromDataRow(dr);
         }
         public static int NewTag(Tag tag)
         {
@@ -79,7 +79,7 @@ namespace AniSuki.Util
         }
         public static IEnumerable<VoiceActor> GetVoiceActor()
         {
-            return from DataRow dr in ExecuteQuery(@"SELECT * FROM VoiceActor").Tables[0].Rows select VoiceActor.FromDataRow(dr);
+            return from DataRow dr in ExecuteQuery(@"SELECT * FROM VoiceActor ORDER BY Name ASC").Tables[0].Rows select VoiceActor.FromDataRow(dr);
         }
         public static int NewVoiceActor(VoiceActor VoiceActor)
         {

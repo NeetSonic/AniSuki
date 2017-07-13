@@ -74,6 +74,12 @@
     <Compile Include="View\Control\ResolutionDataGridView.Designer.cs">
       <DependentUpon>ResolutionDataGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Control\TagCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\Control\TagCheckedListBox.Designer.cs">
+      <DependentUpon>TagCheckedListBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Control\TagDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>

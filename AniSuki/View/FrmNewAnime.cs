@@ -30,6 +30,7 @@ namespace AniSuki.View
                 OnResolutionsChanged();
             }
         }
+
         private void OnResolutionsChanged()
         {
             cmbResolution.DataSource = Resolutions;
@@ -47,6 +48,19 @@ namespace AniSuki.View
         private void LoadResolutions()
         {
             Resolutions = DataAccess.GetResolution().ToList();
+        }
+
+        private void LoadProducers()
+        {
+            cmbProducer.DataSource = DataAccess.GetProducer().ToList();
+            cmbProducer.DisplayMember = @"Name";
+            cmbProducer.ValueMember = @"ID";
+            cmbProducer.SelectedItem = null;
+        }
+
+        private void LoadTags()
+        {
+            clstTag.DataList = new TagList(DataAccess.GetTag().ToList());
         }
 
         private void BtnNewFile_Click(object sender, EventArgs e)
@@ -104,6 +118,35 @@ namespace AniSuki.View
         private void FrmNewAnime_Load(object sender, EventArgs e)
         {
             LoadResolutions();
+            LoadProducers();
+            LoadTags();
+        }
+
+        private void BtnManageProducer_Click(object sender, EventArgs e)
+        {
+            new FrmProducer().ShowDialog();
+            LoadProducers();
+        }
+
+        private void BtnManageTag_Click(object sender, EventArgs e)
+        {
+            new FrmTag().ShowDialog();
+            LoadTags();
+        }
+
+        private void BtnCheckAllTag_Click(object sender, EventArgs e)
+        {
+            clstTag.CheckAll();
+        }
+
+        private void BtnReverseCheckTag_Click(object sender, EventArgs e)
+        {
+            clstTag.ReverseCheck();
+        }
+
+        private void BtnUncheckAllTag_Click(object sender, EventArgs e)
+        {
+            clstTag.UncheckAll();
         }
     }
 }
