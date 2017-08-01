@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AnimeFile.cs" />
+    <Compile Include="Model\Cast.cs" />
     <Compile Include="Model\Producer.cs" />
     <Compile Include="Model\Resolution.cs" />
     <Compile Include="Model\Tag.cs" />
@@ -61,6 +62,12 @@
     </Compile>
     <Compile Include="View\Control\AnimeFileDataGridView.Designer.cs">
       <DependentUpon>AnimeFileDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Control\CastDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\Control\CastDataGridView.Designer.cs">
+      <DependentUpon>CastDataGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Control\ProducerDataGridView.cs">
       <SubType>Component</SubType>
@@ -191,6 +198,9 @@
       <Project>{028b1ec0-07a5-4216-9451-02787471acbf}</Project>
       <Name>Neetsonic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\建表.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -33,6 +33,8 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
             this.dgvAnimeFile = new AniSuki.View.Control.AnimeFileDataGridView();
             this.btnNewFile = new System.Windows.Forms.Button();
             this.tabTag = new System.Windows.Forms.TabPage();
@@ -51,15 +53,24 @@
             this.tabInfo = new System.Windows.Forms.TabControl();
             this.tabCast = new System.Windows.Forms.TabPage();
             this.logTextBox1 = new Neetsonic.Control.LogTextBox();
+            this.dgvCast = new AniSuki.View.Control.CastDataGridView();
+            this.txtCharaName = new Neetsonic.Control.TextBox();
+            this.cmbVoiceActor = new System.Windows.Forms.ComboBox();
+            this.btnManageVoiceActor = new System.Windows.Forms.Button();
+            this.btnNewCast = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimeFile)).BeginInit();
             this.tabTag.SuspendLayout();
             this.tabBase.SuspendLayout();
             this.tabInfo.SuspendLayout();
+            this.tabCast.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCast)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -293,6 +304,13 @@
             // tabCast
             // 
             this.tabCast.BackColor = System.Drawing.SystemColors.Window;
+            this.tabCast.Controls.Add(this.btnNewCast);
+            this.tabCast.Controls.Add(this.btnManageVoiceActor);
+            this.tabCast.Controls.Add(this.cmbVoiceActor);
+            this.tabCast.Controls.Add(label7);
+            this.tabCast.Controls.Add(label6);
+            this.tabCast.Controls.Add(this.txtCharaName);
+            this.tabCast.Controls.Add(this.dgvCast);
             this.tabCast.Location = new System.Drawing.Point(4, 29);
             this.tabCast.Name = "tabCast";
             this.tabCast.Size = new System.Drawing.Size(505, 500);
@@ -311,6 +329,82 @@
             this.logTextBox1.Size = new System.Drawing.Size(513, 240);
             this.logTextBox1.TabIndex = 3;
             // 
+            // dgvCast
+            // 
+            this.dgvCast.AllowUserToAddRows = false;
+            this.dgvCast.AllowUserToDeleteRows = false;
+            this.dgvCast.AllowUserToResizeColumns = false;
+            this.dgvCast.AllowUserToResizeRows = false;
+            this.dgvCast.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCast.BackgroundColor = System.Drawing.Color.White;
+            this.dgvCast.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCast.DataList = null;
+            this.dgvCast.Location = new System.Drawing.Point(7, 131);
+            this.dgvCast.MultiSelect = false;
+            this.dgvCast.Name = "dgvCast";
+            this.dgvCast.OpenLinkInBrowser = false;
+            this.dgvCast.ReadOnly = true;
+            this.dgvCast.RowHeadersVisible = false;
+            this.dgvCast.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dgvCast.RowTemplate.Height = 23;
+            this.dgvCast.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCast.Size = new System.Drawing.Size(490, 362);
+            this.dgvCast.TabIndex = 0;
+            // 
+            // txtCharaName
+            // 
+            this.txtCharaName.Location = new System.Drawing.Point(47, 50);
+            this.txtCharaName.Name = "txtCharaName";
+            this.txtCharaName.Size = new System.Drawing.Size(450, 26);
+            this.txtCharaName.TabIndex = 1;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(4, 53);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(37, 20);
+            label6.TabIndex = 2;
+            label6.Text = "角色";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(4, 14);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(37, 20);
+            label7.TabIndex = 3;
+            label7.Text = "声优";
+            // 
+            // cmbVoiceActor
+            // 
+            this.cmbVoiceActor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbVoiceActor.FormattingEnabled = true;
+            this.cmbVoiceActor.Location = new System.Drawing.Point(47, 11);
+            this.cmbVoiceActor.Name = "cmbVoiceActor";
+            this.cmbVoiceActor.Size = new System.Drawing.Size(333, 28);
+            this.cmbVoiceActor.TabIndex = 4;
+            // 
+            // btnManageVoiceActor
+            // 
+            this.btnManageVoiceActor.Location = new System.Drawing.Point(398, 9);
+            this.btnManageVoiceActor.Name = "btnManageVoiceActor";
+            this.btnManageVoiceActor.Size = new System.Drawing.Size(99, 31);
+            this.btnManageVoiceActor.TabIndex = 6;
+            this.btnManageVoiceActor.Text = "管理声优";
+            this.btnManageVoiceActor.UseVisualStyleBackColor = true;
+            this.btnManageVoiceActor.Click += new System.EventHandler(this.BtnManageVoiceActor_Click);
+            // 
+            // btnNewCast
+            // 
+            this.btnNewCast.Location = new System.Drawing.Point(203, 83);
+            this.btnNewCast.Name = "btnNewCast";
+            this.btnNewCast.Size = new System.Drawing.Size(99, 40);
+            this.btnNewCast.TabIndex = 7;
+            this.btnNewCast.Text = "添加";
+            this.btnNewCast.UseVisualStyleBackColor = true;
+            this.btnNewCast.Click += new System.EventHandler(this.BtnNewCast_Click);
+            // 
             // FrmNewAnime
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -328,6 +422,9 @@
             this.tabBase.ResumeLayout(false);
             this.tabBase.PerformLayout();
             this.tabInfo.ResumeLayout(false);
+            this.tabCast.ResumeLayout(false);
+            this.tabCast.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCast)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,5 +450,10 @@
         private System.Windows.Forms.Button btnUncheckAllTag;
         private System.Windows.Forms.Button btnCheckAllTag;
         private Neetsonic.Control.LogTextBox logTextBox1;
+        private Control.CastDataGridView dgvCast;
+        private Neetsonic.Control.TextBox txtCharaName;
+        private System.Windows.Forms.ComboBox cmbVoiceActor;
+        private System.Windows.Forms.Button btnNewCast;
+        private System.Windows.Forms.Button btnManageVoiceActor;
     }
 }

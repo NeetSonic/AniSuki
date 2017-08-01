@@ -17,7 +17,10 @@ namespace AniSuki.View
         {
             InitializeComponent();
             InitControl();
+            BindEvent();
         }
+
+        private Cast _currCast = new Cast();
 
         private IList<Resolution> _resolutions;
 
@@ -31,6 +34,21 @@ namespace AniSuki.View
             }
         }
 
+        private Cast CurrCast
+        {
+            get => _currCast;
+            set
+            {
+                _currCast = value;
+                OnCurrCastChanged();
+            }
+        }
+
+        private void OnCurrCastChanged()
+        {
+            btnNewCast.Enabled = !string.IsNullOrWhiteSpace(CurrCast?.CharaName) && CurrCast?.VoiceActorID != 0;
+        }
+
         private void OnResolutionsChanged()
         {
             cmbResolution.DataSource = Resolutions;
@@ -42,6 +60,37 @@ namespace AniSuki.View
         private void InitControl()
         {
             dgvAnimeFile.SetColumns();
+            dgvCast.SetColumns();
+            dgvCast.DataList = new CastList();
+            btnNewCast.Enabled = false;
+        }
+
+        private void BindEvent()
+        {
+            txtCharaName.TextChanged += (sender, args) =>
+            {
+                CurrCast.CharaName = ((TextBox)sender).Text;
+                OnCurrCastChanged();
+            };
+            cmbVoiceActor.SelectedIndexChanged += (sender, args) =>
+            {
+                VoiceActor voiceActor = (VoiceActor)cmbVoiceActor.SelectedItem;
+                if(null == voiceActor)
+                {
+                    CurrCast.VoiceActorID = 0;
+                    CurrCast.VoiceActor = null;
+                }
+                else
+                {
+                    CurrCast.VoiceActorID = voiceActor.ID;
+                    CurrCast.VoiceActor = voiceActor.Name;
+                }
+                OnCurrCastChanged();
+            };
+        }
+
+        private void LoadAnimeFile()
+        {
             dgvAnimeFile.DataList = new AnimeFileList();
         }
 
@@ -61,6 +110,14 @@ namespace AniSuki.View
         private void LoadTags()
         {
             clstTag.DataList = new TagList(DataAccess.GetTag().ToList());
+        }
+
+        private void LoadVoiceActors()
+        {
+            cmbVoiceActor.DataSource = DataAccess.GetVoiceActor().ToList();
+            cmbVoiceActor.DisplayMember = @"Name";
+            cmbVoiceActor.ValueMember = @"ID";
+            cmbVoiceActor.SelectedItem = null;
         }
 
         private void BtnNewFile_Click(object sender, EventArgs e)
@@ -117,9 +174,11 @@ namespace AniSuki.View
 
         private void FrmNewAnime_Load(object sender, EventArgs e)
         {
+            LoadAnimeFile();
             LoadResolutions();
             LoadProducers();
             LoadTags();
+            LoadVoiceActors();
         }
 
         private void BtnManageProducer_Click(object sender, EventArgs e)
@@ -147,6 +206,18 @@ namespace AniSuki.View
         private void BtnUncheckAllTag_Click(object sender, EventArgs e)
         {
             clstTag.UncheckAll();
+        }
+
+        private void BtnManageVoiceActor_Click(object sender, EventArgs e)
+        {
+            new FrmVoiceActor().ShowDialog();
+            LoadVoiceActors();
+        }
+
+        private void BtnNewCast_Click(object sender, EventArgs e)
+        {
+            dgvCast.AddItem(CurrCast.ShollowClone());
+            txtCharaName.Text = null;
         }
     }
 }
