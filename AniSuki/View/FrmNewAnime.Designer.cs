@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
@@ -36,6 +37,8 @@
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label7;
             this.dgvAnimeFile = new AniSuki.View.Control.AnimeFileDataGridView();
+            this.menuDgvAnimeFile = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuDeleteAnimeFile = new System.Windows.Forms.ToolStripMenuItem();
             this.btnNewFile = new System.Windows.Forms.Button();
             this.tabTag = new System.Windows.Forms.TabPage();
             this.btnReverseCheckTag = new System.Windows.Forms.Button();
@@ -47,17 +50,21 @@
             this.txtComment = new Neetsonic.Control.TextBox();
             this.btnManageProducer = new System.Windows.Forms.Button();
             this.cmbProducer = new System.Windows.Forms.ComboBox();
-            this.dateTime = new System.Windows.Forms.DateTimePicker();
+            this.dateSale = new System.Windows.Forms.DateTimePicker();
             this.cmbResolution = new System.Windows.Forms.ComboBox();
             this.txtName = new Neetsonic.Control.TextBox();
             this.tabInfo = new System.Windows.Forms.TabControl();
             this.tabCast = new System.Windows.Forms.TabPage();
-            this.logTextBox1 = new Neetsonic.Control.LogTextBox();
-            this.dgvCast = new AniSuki.View.Control.CastDataGridView();
-            this.txtCharaName = new Neetsonic.Control.TextBox();
-            this.cmbVoiceActor = new System.Windows.Forms.ComboBox();
-            this.btnManageVoiceActor = new System.Windows.Forms.Button();
             this.btnNewCast = new System.Windows.Forms.Button();
+            this.btnManageVoiceActor = new System.Windows.Forms.Button();
+            this.cmbVoiceActor = new System.Windows.Forms.ComboBox();
+            this.txtCharaName = new Neetsonic.Control.TextBox();
+            this.dgvCast = new AniSuki.View.Control.CastDataGridView();
+            this.menuDgvCast = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuDeleteCast = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtLog = new Neetsonic.Control.LogTextBox();
+            this.btnNewAnime = new System.Windows.Forms.Button();
+            this.chkDeleteWhenSucceed = new System.Windows.Forms.CheckBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -66,11 +73,13 @@
             label6 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimeFile)).BeginInit();
+            this.menuDgvAnimeFile.SuspendLayout();
             this.tabTag.SuspendLayout();
             this.tabBase.SuspendLayout();
             this.tabInfo.SuspendLayout();
             this.tabCast.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCast)).BeginInit();
+            this.menuDgvCast.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -118,6 +127,24 @@
             label5.TabIndex = 9;
             label5.Text = "动画简介";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(4, 53);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(37, 20);
+            label6.TabIndex = 2;
+            label6.Text = "角色";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(4, 14);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(37, 20);
+            label7.TabIndex = 3;
+            label7.Text = "声优";
+            // 
             // dgvAnimeFile
             // 
             this.dgvAnimeFile.AllowUserToAddRows = false;
@@ -127,6 +154,7 @@
             this.dgvAnimeFile.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAnimeFile.BackgroundColor = System.Drawing.Color.White;
             this.dgvAnimeFile.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAnimeFile.ContextMenuStrip = this.menuDgvAnimeFile;
             this.dgvAnimeFile.DataList = null;
             this.dgvAnimeFile.Location = new System.Drawing.Point(12, 54);
             this.dgvAnimeFile.MultiSelect = false;
@@ -140,6 +168,21 @@
             this.dgvAnimeFile.Size = new System.Drawing.Size(513, 222);
             this.dgvAnimeFile.TabIndex = 0;
             this.dgvAnimeFile.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvAnimeFile_CellDoubleClick);
+            // 
+            // menuDgvAnimeFile
+            // 
+            this.menuDgvAnimeFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuDeleteAnimeFile});
+            this.menuDgvAnimeFile.Name = "menuDgvAnimeFile";
+            this.menuDgvAnimeFile.Size = new System.Drawing.Size(101, 26);
+            this.menuDgvAnimeFile.Opening += new System.ComponentModel.CancelEventHandler(this.MenuDgvAnimeFile_Opening);
+            // 
+            // menuDeleteAnimeFile
+            // 
+            this.menuDeleteAnimeFile.Name = "menuDeleteAnimeFile";
+            this.menuDeleteAnimeFile.Size = new System.Drawing.Size(100, 22);
+            this.menuDeleteAnimeFile.Text = "删除";
+            this.menuDeleteAnimeFile.Click += new System.EventHandler(this.MenuDeleteAnimeFile_Click);
             // 
             // btnNewFile
             // 
@@ -225,7 +268,7 @@
             this.tabBase.Controls.Add(this.btnManageProducer);
             this.tabBase.Controls.Add(this.cmbProducer);
             this.tabBase.Controls.Add(label4);
-            this.tabBase.Controls.Add(this.dateTime);
+            this.tabBase.Controls.Add(this.dateSale);
             this.tabBase.Controls.Add(label3);
             this.tabBase.Controls.Add(this.cmbResolution);
             this.tabBase.Controls.Add(label2);
@@ -266,12 +309,12 @@
             this.cmbProducer.Size = new System.Drawing.Size(356, 28);
             this.cmbProducer.TabIndex = 7;
             // 
-            // dateTime
+            // dateSale
             // 
-            this.dateTime.Location = new System.Drawing.Point(324, 51);
-            this.dateTime.Name = "dateTime";
-            this.dateTime.Size = new System.Drawing.Size(168, 26);
-            this.dateTime.TabIndex = 5;
+            this.dateSale.Location = new System.Drawing.Point(324, 51);
+            this.dateSale.Name = "dateSale";
+            this.dateSale.Size = new System.Drawing.Size(168, 26);
+            this.dateSale.TabIndex = 5;
             // 
             // cmbResolution
             // 
@@ -317,17 +360,41 @@
             this.tabCast.TabIndex = 2;
             this.tabCast.Text = "配音";
             // 
-            // logTextBox1
+            // btnNewCast
             // 
-            this.logTextBox1.AcceptsReturn = true;
-            this.logTextBox1.AcceptsTab = true;
-            this.logTextBox1.Location = new System.Drawing.Point(12, 301);
-            this.logTextBox1.Multiline = true;
-            this.logTextBox1.Name = "logTextBox1";
-            this.logTextBox1.ReadOnly = true;
-            this.logTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logTextBox1.Size = new System.Drawing.Size(513, 240);
-            this.logTextBox1.TabIndex = 3;
+            this.btnNewCast.Location = new System.Drawing.Point(203, 83);
+            this.btnNewCast.Name = "btnNewCast";
+            this.btnNewCast.Size = new System.Drawing.Size(99, 40);
+            this.btnNewCast.TabIndex = 7;
+            this.btnNewCast.Text = "添加";
+            this.btnNewCast.UseVisualStyleBackColor = true;
+            this.btnNewCast.Click += new System.EventHandler(this.BtnNewCast_Click);
+            // 
+            // btnManageVoiceActor
+            // 
+            this.btnManageVoiceActor.Location = new System.Drawing.Point(398, 9);
+            this.btnManageVoiceActor.Name = "btnManageVoiceActor";
+            this.btnManageVoiceActor.Size = new System.Drawing.Size(99, 31);
+            this.btnManageVoiceActor.TabIndex = 6;
+            this.btnManageVoiceActor.Text = "管理声优";
+            this.btnManageVoiceActor.UseVisualStyleBackColor = true;
+            this.btnManageVoiceActor.Click += new System.EventHandler(this.BtnManageVoiceActor_Click);
+            // 
+            // cmbVoiceActor
+            // 
+            this.cmbVoiceActor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbVoiceActor.FormattingEnabled = true;
+            this.cmbVoiceActor.Location = new System.Drawing.Point(47, 11);
+            this.cmbVoiceActor.Name = "cmbVoiceActor";
+            this.cmbVoiceActor.Size = new System.Drawing.Size(333, 28);
+            this.cmbVoiceActor.TabIndex = 4;
+            // 
+            // txtCharaName
+            // 
+            this.txtCharaName.Location = new System.Drawing.Point(47, 50);
+            this.txtCharaName.Name = "txtCharaName";
+            this.txtCharaName.Size = new System.Drawing.Size(450, 26);
+            this.txtCharaName.TabIndex = 1;
             // 
             // dgvCast
             // 
@@ -338,6 +405,7 @@
             this.dgvCast.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvCast.BackgroundColor = System.Drawing.Color.White;
             this.dgvCast.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCast.ContextMenuStrip = this.menuDgvCast;
             this.dgvCast.DataList = null;
             this.dgvCast.Location = new System.Drawing.Point(7, 131);
             this.dgvCast.MultiSelect = false;
@@ -351,66 +419,62 @@
             this.dgvCast.Size = new System.Drawing.Size(490, 362);
             this.dgvCast.TabIndex = 0;
             // 
-            // txtCharaName
+            // menuDgvCast
             // 
-            this.txtCharaName.Location = new System.Drawing.Point(47, 50);
-            this.txtCharaName.Name = "txtCharaName";
-            this.txtCharaName.Size = new System.Drawing.Size(450, 26);
-            this.txtCharaName.TabIndex = 1;
+            this.menuDgvCast.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuDeleteCast});
+            this.menuDgvCast.Name = "menuDgvCast";
+            this.menuDgvCast.Size = new System.Drawing.Size(101, 26);
+            this.menuDgvCast.Opening += new System.ComponentModel.CancelEventHandler(this.MenuDgvCast_Opening);
             // 
-            // label6
+            // menuDeleteCast
             // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(4, 53);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(37, 20);
-            label6.TabIndex = 2;
-            label6.Text = "角色";
+            this.menuDeleteCast.Name = "menuDeleteCast";
+            this.menuDeleteCast.Size = new System.Drawing.Size(100, 22);
+            this.menuDeleteCast.Text = "删除";
+            this.menuDeleteCast.Click += new System.EventHandler(this.MenuDeleteCast_Click);
             // 
-            // label7
+            // txtLog
             // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(4, 14);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(37, 20);
-            label7.TabIndex = 3;
-            label7.Text = "声优";
+            this.txtLog.AcceptsReturn = true;
+            this.txtLog.AcceptsTab = true;
+            this.txtLog.Location = new System.Drawing.Point(12, 342);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLog.Size = new System.Drawing.Size(513, 199);
+            this.txtLog.TabIndex = 3;
             // 
-            // cmbVoiceActor
+            // btnNewAnime
             // 
-            this.cmbVoiceActor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbVoiceActor.FormattingEnabled = true;
-            this.cmbVoiceActor.Location = new System.Drawing.Point(47, 11);
-            this.cmbVoiceActor.Name = "cmbVoiceActor";
-            this.cmbVoiceActor.Size = new System.Drawing.Size(333, 28);
-            this.cmbVoiceActor.TabIndex = 4;
+            this.btnNewAnime.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnNewAnime.Location = new System.Drawing.Point(12, 282);
+            this.btnNewAnime.Name = "btnNewAnime";
+            this.btnNewAnime.Size = new System.Drawing.Size(513, 54);
+            this.btnNewAnime.TabIndex = 4;
+            this.btnNewAnime.Text = "添加动画";
+            this.btnNewAnime.UseVisualStyleBackColor = true;
+            this.btnNewAnime.Click += new System.EventHandler(this.BtnNewAnime_Click);
             // 
-            // btnManageVoiceActor
+            // chkDeleteWhenSucceed
             // 
-            this.btnManageVoiceActor.Location = new System.Drawing.Point(398, 9);
-            this.btnManageVoiceActor.Name = "btnManageVoiceActor";
-            this.btnManageVoiceActor.Size = new System.Drawing.Size(99, 31);
-            this.btnManageVoiceActor.TabIndex = 6;
-            this.btnManageVoiceActor.Text = "管理声优";
-            this.btnManageVoiceActor.UseVisualStyleBackColor = true;
-            this.btnManageVoiceActor.Click += new System.EventHandler(this.BtnManageVoiceActor_Click);
-            // 
-            // btnNewCast
-            // 
-            this.btnNewCast.Location = new System.Drawing.Point(203, 83);
-            this.btnNewCast.Name = "btnNewCast";
-            this.btnNewCast.Size = new System.Drawing.Size(99, 40);
-            this.btnNewCast.TabIndex = 7;
-            this.btnNewCast.Text = "添加";
-            this.btnNewCast.UseVisualStyleBackColor = true;
-            this.btnNewCast.Click += new System.EventHandler(this.BtnNewCast_Click);
+            this.chkDeleteWhenSucceed.AutoSize = true;
+            this.chkDeleteWhenSucceed.Location = new System.Drawing.Point(357, 19);
+            this.chkDeleteWhenSucceed.Name = "chkDeleteWhenSucceed";
+            this.chkDeleteWhenSucceed.Size = new System.Drawing.Size(168, 24);
+            this.chkDeleteWhenSucceed.TabIndex = 5;
+            this.chkDeleteWhenSucceed.Text = "添加完成后删除原文件";
+            this.chkDeleteWhenSucceed.UseVisualStyleBackColor = true;
             // 
             // FrmNewAnime
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1051, 557);
-            this.Controls.Add(this.logTextBox1);
+            this.Controls.Add(this.chkDeleteWhenSucceed);
+            this.Controls.Add(this.btnNewAnime);
+            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.tabInfo);
             this.Controls.Add(this.btnNewFile);
             this.Controls.Add(this.dgvAnimeFile);
@@ -418,6 +482,7 @@
             this.Text = "添加动画";
             this.Load += new System.EventHandler(this.FrmNewAnime_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimeFile)).EndInit();
+            this.menuDgvAnimeFile.ResumeLayout(false);
             this.tabTag.ResumeLayout(false);
             this.tabBase.ResumeLayout(false);
             this.tabBase.PerformLayout();
@@ -425,6 +490,7 @@
             this.tabCast.ResumeLayout(false);
             this.tabCast.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCast)).EndInit();
+            this.menuDgvCast.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -441,7 +507,7 @@
         private Neetsonic.Control.TextBox txtName;
         private System.Windows.Forms.ComboBox cmbResolution;
         private System.Windows.Forms.ComboBox cmbProducer;
-        private System.Windows.Forms.DateTimePicker dateTime;
+        private System.Windows.Forms.DateTimePicker dateSale;
         private System.Windows.Forms.Button btnManageProducer;
         private Neetsonic.Control.TextBox txtComment;
         private Control.TagCheckedListBox clstTag;
@@ -449,11 +515,17 @@
         private System.Windows.Forms.Button btnReverseCheckTag;
         private System.Windows.Forms.Button btnUncheckAllTag;
         private System.Windows.Forms.Button btnCheckAllTag;
-        private Neetsonic.Control.LogTextBox logTextBox1;
+        private Neetsonic.Control.LogTextBox txtLog;
         private Control.CastDataGridView dgvCast;
         private Neetsonic.Control.TextBox txtCharaName;
         private System.Windows.Forms.ComboBox cmbVoiceActor;
         private System.Windows.Forms.Button btnNewCast;
         private System.Windows.Forms.Button btnManageVoiceActor;
+        private System.Windows.Forms.ContextMenuStrip menuDgvCast;
+        private System.Windows.Forms.ToolStripMenuItem menuDeleteCast;
+        private System.Windows.Forms.Button btnNewAnime;
+        private System.Windows.Forms.ContextMenuStrip menuDgvAnimeFile;
+        private System.Windows.Forms.ToolStripMenuItem menuDeleteAnimeFile;
+        private System.Windows.Forms.CheckBox chkDeleteWhenSucceed;
     }
 }

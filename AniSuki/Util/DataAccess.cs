@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using AniSuki.Model;
+using Neetsonic.Tool;
 using Neetsonic.Tool.Database;
 
 namespace AniSuki.Util
@@ -92,6 +93,31 @@ namespace AniSuki.Util
         public static void DeleteVoiceActor(VoiceActor VoiceActor)
         {
             ExecuteNonQuery(@"DELETE FROM VoiceActor WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}});
+        }
+        public static void NewAnime(Anime anime, IEnumerable<Tag> tags, IEnumerable<Cast> casts)
+        {
+            int animeID =  Convert.ToInt32(ExecuteScalar(@" 
+            INSERT INTO Anime([Name],[Comment],[SaleDate],[ProducerID],[Producer],[ResolutionID],[Resolution])
+            VALUES(@Name, @Comment, @SaleDate, @ProducerID, @Producer, @ResolutionID, @Resolution) 
+            SELECT MAX(ID) FROM Anime", 
+            new[]
+            {
+                new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = anime.Name},
+                new SqlParameter(@"@Comment",SqlDbType.NVarChar){Value = SqlParameterEx.NullableString(anime.Comment)},
+                new SqlParameter(@"@SaleDate",SqlDbType.DateTime){Value = anime.SaleDate},
+                new SqlParameter(@"@ProducerID",SqlDbType.Int){Value = anime.ProducerID},
+                new SqlParameter(@"@Producer",SqlDbType.NVarChar){Value = anime.Producer},
+                new SqlParameter(@"@ResolutionID",SqlDbType.Int){Value = anime.ResolutionID},
+                new SqlParameter(@"@Resolution",SqlDbType.NVarChar){Value = anime.Resolution},
+            }));
+            if(tags.Any())
+            {
+                ExecuteNonQuery(string.Format($@"INSERT INTO AnimeTag(AnimeID, TagID, Tag) VALUES {string.Join(",", tags.Select(tag => string.Format($@"({animeID}, {tag.ID}, N'{tag.Name}')")))}"));
+            }
+            if(casts.Any())
+            {
+                ExecuteNonQuery(string.Format($@"INSERT INTO [Cast](AnimeID, VoiceActorID, VoiceActor, CharaName) VALUES {string.Join(",", casts.Select(cast => string.Format($@"({animeID}, {cast.VoiceActorID}, N'{cast.VoiceActor}', N'{cast.CharaName}')")))}"));
+            }
         }
     }
 }

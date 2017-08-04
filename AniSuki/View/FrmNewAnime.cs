@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AniSuki.Model;
 using AniSuki.Util;
@@ -44,6 +47,24 @@ namespace AniSuki.View
             }
         }
 
+        private Anime NewAnime{ get; } = new Anime();
+
+        private AnimeFileList AnimeFiles => (AnimeFileList)dgvAnimeFile.DataList;
+
+        private void OnNewAnimeChanged()
+        {
+            btnNewAnime.Enabled =
+                    !string.IsNullOrWhiteSpace(NewAnime.Name)
+                    &&
+                    NewAnime.ProducerID != 0
+                    &&
+                    NewAnime.ResolutionID != 0
+                    &&
+                    NewAnime.SaleDate != DateTime.MinValue
+                    &&
+                    AnimeFiles.Count > 0;
+        }
+
         private void OnCurrCastChanged()
         {
             btnNewCast.Enabled = !string.IsNullOrWhiteSpace(CurrCast?.CharaName) && CurrCast?.VoiceActorID != 0;
@@ -61,8 +82,8 @@ namespace AniSuki.View
         {
             dgvAnimeFile.SetColumns();
             dgvCast.SetColumns();
-            dgvCast.DataList = new CastList();
             btnNewCast.Enabled = false;
+            btnNewAnime.Enabled = false;
         }
 
         private void BindEvent()
@@ -86,6 +107,46 @@ namespace AniSuki.View
                     CurrCast.VoiceActor = voiceActor.Name;
                 }
                 OnCurrCastChanged();
+            };
+            txtName.TextChanged += (sender, args) =>
+            {
+                NewAnime.Name = txtName.Text;
+                OnNewAnimeChanged();
+            };
+            cmbProducer.SelectedIndexChanged += (sender, args) =>
+            {
+                Producer producer = (Producer)cmbProducer.SelectedItem;
+                if(null == producer)
+                {
+                    NewAnime.ProducerID = 0;
+                    NewAnime.Producer = null;
+                }
+                else
+                {
+                    NewAnime.ProducerID = producer.ID;
+                    NewAnime.Producer = producer.Name;
+                }
+                OnNewAnimeChanged();
+            };
+            cmbResolution.SelectedIndexChanged += (sender, args) =>
+            {
+                Resolution resolution = (Resolution)cmbResolution.SelectedItem;
+                if(null == resolution)
+                {
+                    NewAnime.ResolutionID = 0;
+                    NewAnime.Resolution = null;
+                }
+                else
+                {
+                    NewAnime.ResolutionID = resolution.ID;
+                    NewAnime.Resolution = resolution.ResolutionString;
+                }
+                OnNewAnimeChanged();
+            };
+            dateSale.ValueChanged += (sender, args) =>
+            {
+                NewAnime.SaleDate = dateSale.Value;
+                OnNewAnimeChanged();
             };
         }
 
@@ -118,6 +179,11 @@ namespace AniSuki.View
             cmbVoiceActor.DisplayMember = @"Name";
             cmbVoiceActor.ValueMember = @"ID";
             cmbVoiceActor.SelectedItem = null;
+        }
+
+        private void LoadCast()
+        {
+            dgvCast.DataList = new CastList();
         }
 
         private void BtnNewFile_Click(object sender, EventArgs e)
@@ -160,6 +226,7 @@ namespace AniSuki.View
                         cmbResolution.SelectedItem = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
                     }
                 }
+                OnNewAnimeChanged();
             }
         }
 
@@ -179,6 +246,7 @@ namespace AniSuki.View
             LoadProducers();
             LoadTags();
             LoadVoiceActors();
+            LoadCast();
         }
 
         private void BtnManageProducer_Click(object sender, EventArgs e)
@@ -218,6 +286,69 @@ namespace AniSuki.View
         {
             dgvCast.AddItem(CurrCast.ShollowClone());
             txtCharaName.Text = null;
+        }
+
+        private void MenuDgvCast_Opening(object sender, CancelEventArgs e)
+        {
+            e.Cancel = dgvCast.SelectedItem == null;
+        }
+
+        private void MenuDeleteCast_Click(object sender, EventArgs e)
+        {
+            dgvCast.RemoveCurrSelectedItem();
+        }
+
+        private void BtnNewAnime_Click(object sender, EventArgs e)
+        {
+            TaskNewAnime();
+        }
+
+        private void AsyncLog(string log)
+        {
+            BeginInvoke(new MethodInvoker(()=>txtLog.WriteLog(log)));
+        }
+
+        private async void TaskNewAnime()
+        {
+            await Task.Run(() =>
+            {
+                AsyncLog(@"开始添加动画...");
+                AsyncLog(@"创建动画结构目录...");
+                string animeDir = Path.Combine(Config.RootDir, NewAnime.Name);
+                string coverDir = Path.Combine(animeDir, @"Cover");
+                Directory.CreateDirectory(animeDir);
+                Directory.CreateDirectory(coverDir);
+                AsyncLog(@"开始拷贝文件...");
+                foreach(AnimeFile animeFile in AnimeFiles)
+                {
+                    AsyncLog(string.Format($@"拷贝[{animeFile.Rename}]..."));
+                    string srcFile = animeFile.FilePath;
+                    string dstFile = Path.Combine(MediaInfoTool.IsImage(srcFile) ? coverDir : animeDir, animeFile.Rename);
+                    File.Copy(srcFile, dstFile, true);
+                }
+                AsyncLog(@"写入数据库...");
+                IEnumerable<Tag> tags = clstTag.Items.Cast<object>().Where((t, idx) => clstTag.GetItemChecked(idx)).Cast<Tag>();
+                IEnumerable<Cast> casts = dgvCast.DataList.AsEnumerable();
+                DataAccess.NewAnime(NewAnime, tags, casts);
+                if(chkDeleteWhenSucceed.Checked)
+                {
+                    AsyncLog(@"删除原文件...");
+                    FileTool.DeleteFiles(AnimeFiles.Select(file=>file.FilePath));
+                }
+                AsyncLog(@"添加动画完毕！");
+            });
+            MessageBoxEx.Info(@"添加动画成功！");
+        }
+
+        private void MenuDgvAnimeFile_Opening(object sender, CancelEventArgs e)
+        {
+            e.Cancel = dgvAnimeFile.SelectedItem == null;
+        }
+
+        private void MenuDeleteAnimeFile_Click(object sender, EventArgs e)
+        {
+            dgvAnimeFile.RemoveCurrSelectedItem();
+            OnNewAnimeChanged();
         }
     }
 }
