@@ -235,7 +235,7 @@ namespace AniSuki.View
             FrmRename frmRename = new FrmRename(Path.GetFileNameWithoutExtension(dgvAnimeFile.SelectedItem.Rename));
             if(DialogResult.OK == frmRename.ShowDialog())
             {
-                dgvAnimeFile.UpdateCurrSelectedItem((ref AnimeFile file) => file.Rename = Path.ChangeExtension(frmRename.NewName, Path.GetExtension(file.FilePath)));
+                dgvAnimeFile.UpdateCurrSelectedItem((ref AnimeFile file) => file.Rename = string.Concat(frmRename.NewName, Path.GetExtension(file.FilePath)));
             }
         }
 
