@@ -43,7 +43,7 @@ namespace AniSuki.View.Control
         }
         protected override bool IsTheSameItem(Cast t1, Cast t2)
         {
-            return t1.AnimeID == t2.AnimeID && t1.VoiceActorID == t2.VoiceActorID;
+            return t1.VoiceActorID == t2.VoiceActorID && t1.CharaName == t2.CharaName;
         }
     }
 }

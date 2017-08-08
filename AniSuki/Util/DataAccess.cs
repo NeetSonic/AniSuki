@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -94,8 +95,10 @@ namespace AniSuki.Util
         {
             ExecuteNonQuery(@"DELETE FROM VoiceActor WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}});
         }
-        public static void NewAnime(Anime anime, IEnumerable<Tag> tags, IEnumerable<Cast> casts)
+        public static void NewAnime(Anime anime)
         {
+            IEnumerable<Tag> tags = anime.Tags;
+            IEnumerable<Cast> casts = anime.Casts;
             int animeID =  Convert.ToInt32(ExecuteScalar(@" 
             INSERT INTO Anime([Name],[Comment],[SaleDate],[ProducerID],[Producer],[ResolutionID],[Resolution])
             VALUES(@Name, @Comment, @SaleDate, @ProducerID, @Producer, @ResolutionID, @Resolution) 
@@ -118,6 +121,34 @@ namespace AniSuki.Util
             {
                 ExecuteNonQuery(string.Format($@"INSERT INTO [Cast](AnimeID, VoiceActorID, VoiceActor, CharaName) VALUES {string.Join(",", casts.Select(cast => string.Format($@"({animeID}, {cast.VoiceActorID}, N'{cast.VoiceActor}', N'{cast.CharaName}')")))}"));
             }
+        }
+        public static IEnumerable<Anime> GetAnime(string filter)
+        {
+            string sql = @"	
+            SELECT ID, Name, Comment, SaleDate, ProducerID, Producer, ResolutionID, Resolution FROM Anime 
+	        WHERE 
+	        Name LIKE N'%萨%' AND 
+	        DATEDIFF(dd, SaleDate, '1999-01-01')<=0 AND 
+	        DATEDIFF(dd, SaleDate, '2999-01-01')>=0 AND 
+	        ProducerID = 1 AND
+	        ResolutionID = 1 AND
+	        ID IN
+	        (
+		        SELECT AnimeID FROM AnimeTag WHERE TagID IN(1,2) GROUP BY AnimeID HAVING COUNT(*) = 2
+	        ) AND
+	        ID IN
+	        (
+		        SELECT DISTINCT AnimeID FROM AnimeTag WHERE TagID IN(1,2,3)
+	        ) AND
+	        ID IN
+	        (
+		        SELECT AnimeID FROM [Cast] WHERE VoiceActorID IN (1,2) GROUP BY AnimeID HAVING COUNT(*) = 2
+	        ) AND 
+	        ID IN
+	        (
+		        SELECT DISTINCT AnimeID FROM [Cast] WHERE VoiceActorID IN (1,2,3)
+	        ) ";
+            return null;
         }
     }
 }

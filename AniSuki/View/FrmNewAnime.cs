@@ -327,9 +327,9 @@ namespace AniSuki.View
                     File.Copy(srcFile, dstFile, true);
                 }
                 AsyncLog(@"写入数据库...");
-                IEnumerable<Tag> tags = clstTag.Items.Cast<object>().Where((t, idx) => clstTag.GetItemChecked(idx)).Cast<Tag>();
-                IEnumerable<Cast> casts = dgvCast.DataList.AsEnumerable();
-                DataAccess.NewAnime(NewAnime, tags, casts);
+                NewAnime.Tags = clstTag.Items.Cast<object>().Where((t, idx) => clstTag.GetItemChecked(idx)).Cast<Tag>();
+                NewAnime.Casts = dgvCast.DataList.AsEnumerable();
+                DataAccess.NewAnime(NewAnime);
                 if(chkDeleteWhenSucceed.Checked)
                 {
                     AsyncLog(@"删除原文件...");

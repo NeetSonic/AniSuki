@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AniSuki.Model
 {
@@ -12,5 +13,7 @@ namespace AniSuki.Model
         public string Producer{ get; set; }
         public int ResolutionID{ get; set; }
         public string Resolution{ get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<Cast> Casts { get; set; }
     }
 }

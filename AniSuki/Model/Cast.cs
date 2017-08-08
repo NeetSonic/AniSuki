@@ -6,7 +6,6 @@ namespace AniSuki.Model
 {
     public sealed class Cast
     {
-        public int AnimeID{ get; set; }
         public int VoiceActorID{ get; set; }
         public string VoiceActor{ get; set; }
         public string CharaName{ get; set; }
@@ -15,7 +14,6 @@ namespace AniSuki.Model
         {
             return new Cast
             {
-                AnimeID = dr.Field<int>(nameof(AnimeID)),
                 VoiceActorID = dr.Field<int>(nameof(VoiceActorID)),
                 CharaName = dr.Field<string>(nameof(CharaName)),
                 VoiceActor = dr.Field<string>(nameof(VoiceActor))
