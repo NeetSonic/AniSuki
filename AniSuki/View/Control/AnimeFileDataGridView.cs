@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AniSuki.Model;
+﻿using AniSuki.Model;
 using Neetsonic.Control;
 
 namespace AniSuki.View.Control

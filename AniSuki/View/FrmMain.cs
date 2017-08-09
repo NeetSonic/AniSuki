@@ -33,5 +33,10 @@ namespace AniSuki.View
         {
             new FrmNewAnime().ShowDialog();
         }
+
+        private void btnBrowse_Click(object sender, System.EventArgs e)
+        {
+            new FrmBrowse().ShowDialog();
+        }
     }
 }

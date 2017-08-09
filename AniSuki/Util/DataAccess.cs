@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -99,20 +98,20 @@ namespace AniSuki.Util
         {
             IEnumerable<Tag> tags = anime.Tags;
             IEnumerable<Cast> casts = anime.Casts;
-            int animeID =  Convert.ToInt32(ExecuteScalar(@" 
+            int animeID = Convert.ToInt32(ExecuteScalar(@" 
             INSERT INTO Anime([Name],[Comment],[SaleDate],[ProducerID],[Producer],[ResolutionID],[Resolution])
             VALUES(@Name, @Comment, @SaleDate, @ProducerID, @Producer, @ResolutionID, @Resolution) 
-            SELECT MAX(ID) FROM Anime", 
-            new[]
-            {
-                new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = anime.Name},
-                new SqlParameter(@"@Comment",SqlDbType.NVarChar){Value = SqlParameterEx.NullableString(anime.Comment)},
-                new SqlParameter(@"@SaleDate",SqlDbType.DateTime){Value = anime.SaleDate},
-                new SqlParameter(@"@ProducerID",SqlDbType.Int){Value = anime.ProducerID},
-                new SqlParameter(@"@Producer",SqlDbType.NVarChar){Value = anime.Producer},
-                new SqlParameter(@"@ResolutionID",SqlDbType.Int){Value = anime.ResolutionID},
-                new SqlParameter(@"@Resolution",SqlDbType.NVarChar){Value = anime.Resolution},
-            }));
+            SELECT MAX(ID) FROM Anime",
+                                                        new[]
+                                                        {
+                                                            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = anime.Name},
+                                                            new SqlParameter(@"@Comment", SqlDbType.NVarChar) {Value = SqlParameterEx.NullableString(anime.Comment)},
+                                                            new SqlParameter(@"@SaleDate", SqlDbType.DateTime) {Value = anime.SaleDate},
+                                                            new SqlParameter(@"@ProducerID", SqlDbType.Int) {Value = anime.ProducerID},
+                                                            new SqlParameter(@"@Producer", SqlDbType.NVarChar) {Value = anime.Producer},
+                                                            new SqlParameter(@"@ResolutionID", SqlDbType.Int) {Value = anime.ResolutionID},
+                                                            new SqlParameter(@"@Resolution", SqlDbType.NVarChar) {Value = anime.Resolution}
+                                                        }));
             if(tags.Any())
             {
                 ExecuteNonQuery(string.Format($@"INSERT INTO AnimeTag(AnimeID, TagID, Tag) VALUES {string.Join(",", tags.Select(tag => string.Format($@"({animeID}, {tag.ID}, N'{tag.Name}')")))}"));
@@ -148,7 +147,16 @@ namespace AniSuki.Util
 	        (
 		        SELECT DISTINCT AnimeID FROM [Cast] WHERE VoiceActorID IN (1,2,3)
 	        ) ";
-            return null;
+            sql = @"SELECT ID, Name, Comment, SaleDate, ProducerID, Producer, ResolutionID, Resolution FROM Anime";
+            IEnumerable <Anime> animes = from DataRow row in ExecuteQuery(sql).Tables[0].Rows select Anime.FromDataRow(row);
+            foreach(Anime anime in animes)
+            {
+                sql = @"SELECT TagID AS ID, Tag AS Name FROM AnimeTag WHERE AnimeID = @AnimeID";
+                anime.Tags = from DataRow row in ExecuteQuery(sql, new[] {new SqlParameter(@"@AnimeID", SqlDbType.Int) {Value = anime.ID}}).Tables[0].Rows select Tag.FromDataRow(row);
+                sql = @"SELECT VoiceActorID, VoiceActor, CharaName FROM Cast WHERE AnimeID = @AnimeID";
+                anime.Casts = from DataRow row in ExecuteQuery(sql, new[] { new SqlParameter(@"@AnimeID", SqlDbType.Int) { Value = anime.ID } }).Tables[0].Rows select Cast.FromDataRow(row);
+            }
+            return animes;
         }
     }
 }

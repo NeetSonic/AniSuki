@@ -59,6 +59,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Config.cs" />
     <Compile Include="Util\DataAccess.cs" />
+    <Compile Include="View\Control\AnimeDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\Control\AnimeDataGridView.Designer.cs">
+      <DependentUpon>AnimeDataGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Control\AnimeFileDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -100,6 +106,12 @@
     </Compile>
     <Compile Include="View\Control\VoiceActorDataGridView.Designer.cs">
       <DependentUpon>VoiceActorDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FrmBrowse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FrmBrowse.Designer.cs">
+      <DependentUpon>FrmBrowse.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FrmMain.cs">
       <SubType>Form</SubType>
@@ -158,6 +170,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\FrmBrowse.resx">
+      <DependentUpon>FrmBrowse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>

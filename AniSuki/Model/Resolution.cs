@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 
 namespace AniSuki.Model
 {
@@ -14,11 +15,17 @@ namespace AniSuki.Model
             Width = Convert.ToInt16(size.Width);
             Height = Convert.ToInt16(size.Height);
         }
+        public Resolution(string res)
+        {
+            int flag = res.IndexOf('x');
+            Width = short.Parse(res.Substring(0, flag));
+            Height = short.Parse(res.Substring(flag + 1));
+        }
 
         public int ID{ get; set; }
         public short Width{ get; set; }
         public short Height{ get; set; }
-        public string ResolutionString => string.Format($"{Width}x{Height}");
+        public string ResolutionString => string.Format($@"{Width}x{Height}");
 
         public static bool operator >(Resolution r1, Resolution r2)
         {
@@ -43,6 +50,18 @@ namespace AniSuki.Model
                 return true;
             }
             return r1.Width == r2.Width ? r1.Height < r2.Height : r1.Width < r2.Width;
+        }
+        public static int operator -(Resolution r1, Resolution r2)
+        {
+            if(r1 > r2)
+            {
+                return 1;
+            }
+            if(r1 < r2)
+            {
+                return -1;
+            }
+            return 0;
         }
         public static Resolution FromDataRow(DataRow dr)
         {
