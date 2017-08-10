@@ -121,40 +121,35 @@ namespace AniSuki.Util
                 ExecuteNonQuery(string.Format($@"INSERT INTO [Cast](AnimeID, VoiceActorID, VoiceActor, CharaName) VALUES {string.Join(",", casts.Select(cast => string.Format($@"({animeID}, {cast.VoiceActorID}, N'{cast.VoiceActor}', N'{cast.CharaName}')")))}"));
             }
         }
-        public static IEnumerable<Anime> GetAnime(string filter)
+        public static IEnumerable<Anime> GetAnime(IEnumerable<string> filters)
         {
-            string sql = @"	
-            SELECT ID, Name, Comment, SaleDate, ProducerID, Producer, ResolutionID, Resolution FROM Anime 
-	        WHERE 
-	        Name LIKE N'%萨%' AND 
-	        DATEDIFF(dd, SaleDate, '1999-01-01')<=0 AND 
-	        DATEDIFF(dd, SaleDate, '2999-01-01')>=0 AND 
-	        ProducerID = 1 AND
-	        ResolutionID = 1 AND
-	        ID IN
-	        (
-		        SELECT AnimeID FROM AnimeTag WHERE TagID IN(1,2) GROUP BY AnimeID HAVING COUNT(*) = 2
-	        ) AND
-	        ID IN
-	        (
-		        SELECT DISTINCT AnimeID FROM AnimeTag WHERE TagID IN(1,2,3)
-	        ) AND
-	        ID IN
-	        (
-		        SELECT AnimeID FROM [Cast] WHERE VoiceActorID IN (1,2) GROUP BY AnimeID HAVING COUNT(*) = 2
-	        ) AND 
-	        ID IN
-	        (
-		        SELECT DISTINCT AnimeID FROM [Cast] WHERE VoiceActorID IN (1,2,3)
-	        ) ";
-            sql = @"SELECT ID, Name, Comment, SaleDate, ProducerID, Producer, ResolutionID, Resolution FROM Anime";
-            IEnumerable <Anime> animes = from DataRow row in ExecuteQuery(sql).Tables[0].Rows select Anime.FromDataRow(row);
-            foreach(Anime anime in animes)
+            string filter = filters.Any() ? string.Concat(@" WHERE ", string.Join(@" AND ", filters)) : string.Empty;
+            string sql = string.Format($@"SELECT ID, Name, Comment, SaleDate, ProducerID, Producer, ResolutionID, Resolution FROM Anime{filter}");
+            List<Anime> animes = new List<Anime>();
+            using(DataSet ds = ExecuteQuery(sql))
             {
-                sql = @"SELECT TagID AS ID, Tag AS Name FROM AnimeTag WHERE AnimeID = @AnimeID";
-                anime.Tags = from DataRow row in ExecuteQuery(sql, new[] {new SqlParameter(@"@AnimeID", SqlDbType.Int) {Value = anime.ID}}).Tables[0].Rows select Tag.FromDataRow(row);
-                sql = @"SELECT VoiceActorID, VoiceActor, CharaName FROM Cast WHERE AnimeID = @AnimeID";
-                anime.Casts = from DataRow row in ExecuteQuery(sql, new[] { new SqlParameter(@"@AnimeID", SqlDbType.Int) { Value = anime.ID } }).Tables[0].Rows select Cast.FromDataRow(row);
+                foreach(DataRow row in ds.Tables[0].Rows)
+                {
+                    Anime anime = Anime.FromDataRow(row);
+                    sql = string.Format($@"SELECT TagID AS ID, Tag AS Name FROM AnimeTag WHERE AnimeID = {anime.ID}  SELECT VoiceActorID, VoiceActor, CharaName FROM Cast WHERE AnimeID = {anime.ID}");
+                    using(DataSet dataSet = ExecuteQuery(sql))
+                    {
+                        List<Tag> tags = new List<Tag>();
+                        foreach(DataRow dr in dataSet.Tables[0].Rows)
+                        {
+                            tags.Add(Tag.FromDataRow(dr));
+                        }
+                        anime.Tags = tags;
+
+                        List<Cast> casts = new List<Cast>();
+                        foreach(DataRow dr in dataSet.Tables[1].Rows)
+                        {
+                            casts.Add(Cast.FromDataRow(dr));
+                        }
+                        anime.Casts = casts;
+                    }
+                    animes.Add(anime);
+                }
             }
             return animes;
         }

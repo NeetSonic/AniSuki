@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AniSuki.Model;
@@ -47,7 +46,7 @@ namespace AniSuki.View
             }
         }
 
-        private Anime NewAnime{ get; } = new Anime();
+        private Anime NewAnime { get; } = new Anime();
 
         private AnimeFileList AnimeFiles => (AnimeFileList)dgvAnimeFile.DataList;
 
@@ -305,7 +304,7 @@ namespace AniSuki.View
 
         private void AsyncLog(string log)
         {
-            BeginInvoke(new MethodInvoker(()=>txtLog.WriteLog(log)));
+            BeginInvoke(new MethodInvoker(() => txtLog.WriteLog(log)));
         }
 
         private async void TaskNewAnime()
@@ -333,7 +332,7 @@ namespace AniSuki.View
                 if(chkDeleteWhenSucceed.Checked)
                 {
                     AsyncLog(@"删除原文件...");
-                    FileTool.DeleteFiles(AnimeFiles.Select(file=>file.FilePath));
+                    FileTool.DeleteFiles(AnimeFiles.Select(file => file.FilePath));
                 }
                 AsyncLog(@"添加动画完毕！");
             });

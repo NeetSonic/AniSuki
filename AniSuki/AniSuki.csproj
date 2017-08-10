@@ -101,6 +101,12 @@
     <Compile Include="View\Control\TagDataGridView.Designer.cs">
       <DependentUpon>TagDataGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Control\VoiceActorCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\Control\VoiceActorCheckedListBox.Designer.cs">
+      <DependentUpon>VoiceActorCheckedListBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Control\VoiceActorDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
