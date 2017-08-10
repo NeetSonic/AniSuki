@@ -21,16 +21,18 @@ namespace AniSuki.View
         {
             dgvAnime.SelectionChanged += (sender, args) =>
             {
-                Anime anime = (Anime)dgvAnime.SelectedItem;
+                Anime anime = dgvAnime.SelectedItem;
                 if(null == anime)
                 {
                     dgvTag.DataList = null;
                     dgvCast.DataList = null;
+                    txtComment.Text = null;
                 }
                 else
                 {
                     dgvTag.DataList = new TagList(anime.Tags.ToList());
                     dgvCast.DataList = new CastList(anime.Casts.ToList());
+                    txtComment.Text = anime.Comment;
                 }
             };
         }
