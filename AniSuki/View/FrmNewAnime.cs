@@ -22,8 +22,6 @@ namespace AniSuki.View
             BindEvent();
         }
 
-        private Cast _currCast = new Cast();
-
         private IList<Resolution> _resolutions;
 
         private IList<Resolution> Resolutions
@@ -36,15 +34,7 @@ namespace AniSuki.View
             }
         }
 
-        private Cast CurrCast
-        {
-            get => _currCast;
-            set
-            {
-                _currCast = value;
-                OnCurrCastChanged();
-            }
-        }
+        private Cast CurrCast{ get; } = new Cast();
 
         private Anime NewAnime { get; } = new Anime();
 
@@ -147,6 +137,7 @@ namespace AniSuki.View
                 NewAnime.SaleDate = dateSale.Value;
                 OnNewAnimeChanged();
             };
+            txtComment.TextChanged += (sender, args) => NewAnime.Comment = txtComment.Text;
         }
 
         private void LoadAnimeFile()
@@ -349,5 +340,6 @@ namespace AniSuki.View
             dgvAnimeFile.RemoveCurrSelectedItem();
             OnNewAnimeChanged();
         }
+
     }
 }

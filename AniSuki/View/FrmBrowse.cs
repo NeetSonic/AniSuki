@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AniSuki.Model;
 using AniSuki.Util;
 using AniSuki.View.Templete;
+using Neetsonic.Tool;
 
 namespace AniSuki.View
 {
@@ -27,12 +29,14 @@ namespace AniSuki.View
                     dgvTag.DataList = null;
                     dgvCast.DataList = null;
                     txtComment.Text = null;
+                    btnExplorer.Enabled = false;
                 }
                 else
                 {
                     dgvTag.DataList = new TagList(anime.Tags.ToList());
                     dgvCast.DataList = new CastList(anime.Casts.ToList());
                     txtComment.Text = anime.Comment;
+                    btnExplorer.Enabled = true;
                 }
             };
         }
@@ -41,6 +45,7 @@ namespace AniSuki.View
             dgvAnime.SetColumns();
             dgvCast.SetColumns();
             dgvTag.SetColumns();
+            btnExplorer.Enabled = false;
         }
 
         private string FilterName => txtFilterName.Text;
@@ -105,7 +110,6 @@ namespace AniSuki.View
             }
             if(filterTagIDAnd.Any())
             {
-
                 filters.Add(string.Format($@"ID IN
 	            (
 		            SELECT AnimeID FROM AnimeTag WHERE TagID IN({string.Join(@",", filterTagIDAnd)}) GROUP BY AnimeID HAVING COUNT(*) = {filterTagIDAnd.Count()}
@@ -120,7 +124,6 @@ namespace AniSuki.View
             }
             if(filterVoiceActorIDAnd.Any())
             {
-
                 filters.Add(string.Format($@"ID IN
 	            (
 		            SELECT AnimeID FROM [Cast] WHERE VoiceActorID IN({string.Join(@",", filterVoiceActorIDAnd)}) GROUP BY AnimeID HAVING COUNT(*) = {filterVoiceActorIDAnd.Count()}
@@ -136,7 +139,7 @@ namespace AniSuki.View
             await Task.Run(() =>
             {
                 AnimeList animes = new AnimeList(DataAccess.GetAnime(filters).ToList());
-                BeginInvoke(new MethodInvoker(() =>dgvAnime.DataList = animes));
+                BeginInvoke(new MethodInvoker(() => dgvAnime.DataList = animes));
             });
         }
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -150,6 +153,59 @@ namespace AniSuki.View
             LoadResolutions();
             LoadTags();
             LoadVoiceActors();
+        }
+
+        private void BtnClearName_Click(object sender, EventArgs e)
+        {
+            txtFilterName.Text = null;
+        }
+
+        private void BtnClearProducer_Click(object sender, EventArgs e)
+        {
+            cmbFilterProducer.SelectedItem = null;
+        }
+
+        private void BtnClearResolution_Click(object sender, EventArgs e)
+        {
+            cmbFilterResolution.SelectedItem = null;
+        }
+
+        private void BtnClearTagAnd_Click(object sender, EventArgs e)
+        {
+            clstFilterTagAnd.UncheckAll();
+        }
+
+        private void BtnClearTagOr_Click(object sender, EventArgs e)
+        {
+            clstFilterTagOr.UncheckAll();
+        }
+
+        private void BtnClearVoiceActorAnd_Click(object sender, EventArgs e)
+        {
+            clstFilterVoiceActorAnd.UncheckAll();
+        }
+
+        private void BtnClearVoiceActorOr_Click(object sender, EventArgs e)
+        {
+            clstFilterVoiceActorOr.UncheckAll();
+        }
+
+        private void BtnClearAll_Click(object sender, EventArgs e)
+        {
+            txtFilterName.Text = null;
+            cmbFilterProducer.SelectedItem = null;
+            cmbFilterResolution.SelectedItem = null;
+            clstFilterTagAnd.UncheckAll();
+            clstFilterTagOr.UncheckAll();
+            clstFilterVoiceActorAnd.UncheckAll();
+            clstFilterVoiceActorOr.UncheckAll();
+            dateFilterSaleDateAfter.Value = null;
+            dateFilterSaleDateBefore.Value = null;
+        }
+
+        private void BtnExplorer_Click(object sender, EventArgs e)
+        {
+            FileTool.OpenDirectory(Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name));
         }
     }
 }
