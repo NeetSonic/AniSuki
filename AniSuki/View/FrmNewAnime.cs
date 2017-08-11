@@ -192,11 +192,7 @@ namespace AniSuki.View
                     {
                         if(MediaInfoTool.IsVideo(filePath))
                         {
-                            Resolution currRes = new Resolution(MediaInfoTool.GetVideoRes(filePath));
-                            if(currRes > maxRes)
-                            {
-                                maxRes = currRes;
-                            }
+                            maxRes = Resolution.Max(new Resolution(MediaInfoTool.GetVideoRes(filePath)), maxRes);
                         }
                         dgvAnimeFile.AddItem(new AnimeFile(filePath));
                     }

@@ -60,6 +60,7 @@
             this.dgvCast = new AniSuki.View.Control.CastDataGridView();
             this.txtComment = new Neetsonic.Control.TextBox();
             this.btnExplorer = new System.Windows.Forms.Button();
+            this.btnFreshResolution = new System.Windows.Forms.Button();
             grpFilter = new Neetsonic.Control.GroupBox();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -454,11 +455,22 @@
             this.btnExplorer.UseVisualStyleBackColor = true;
             this.btnExplorer.Click += new System.EventHandler(this.BtnExplorer_Click);
             // 
+            // btnFreshResolution
+            // 
+            this.btnFreshResolution.Location = new System.Drawing.Point(859, 616);
+            this.btnFreshResolution.Name = "btnFreshResolution";
+            this.btnFreshResolution.Size = new System.Drawing.Size(154, 33);
+            this.btnFreshResolution.TabIndex = 16;
+            this.btnFreshResolution.Text = "刷新分辨率";
+            this.btnFreshResolution.UseVisualStyleBackColor = true;
+            this.btnFreshResolution.Click += new System.EventHandler(this.BtnFreshResolution_Click);
+            // 
             // FrmBrowse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1532, 661);
+            this.Controls.Add(this.btnFreshResolution);
             this.Controls.Add(this.btnExplorer);
             this.Controls.Add(grpFilter);
             this.Controls.Add(this.txtComment);
@@ -513,5 +525,6 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button btnExplorer;
+        private System.Windows.Forms.Button btnFreshResolution;
     }
 }

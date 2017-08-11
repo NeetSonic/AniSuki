@@ -63,6 +63,7 @@ namespace AniSuki.Model
             }
             return 0;
         }
+        public static Resolution Max(Resolution r1, Resolution r2) => r1 > r2 ? r1 : r2;
         public static Resolution FromDataRow(DataRow dr)
         {
             return new Resolution
@@ -76,10 +77,8 @@ namespace AniSuki.Model
         {
             return (Resolution)MemberwiseClone();
         }
-        public bool ValueEquals(Resolution res)
-        {
-            return Width == res.Width && Height == res.Height;
-        }
+        public bool ValueEquals(Resolution res)=>Width == res.Width && Height == res.Height;
+        
     }
 
     public sealed class ResolutionList : Neetsonic.DataStructure.BindingList<Resolution>

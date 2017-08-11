@@ -19,6 +19,15 @@ namespace AniSuki.View
             InitControls();
             BindEvents();
         }
+
+        private string FilterName => txtFilterName.Text;
+        private int? FilterProducerID => ((Producer)cmbFilterProducer.SelectedItem)?.ID;
+        private int? FilterResolutionID => ((Resolution)cmbFilterResolution.SelectedItem)?.ID;
+        private DateTime? FilterSaleDateAfter => dateFilterSaleDateAfter.Value;
+        private DateTime? FilterSaleDateBefore => dateFilterSaleDateAfter.Value;
+        private string CurrAnimeDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name);
+        private Anime CurrAnime => dgvAnime.SelectedItem;
+
         private void BindEvents()
         {
             dgvAnime.SelectionChanged += (sender, args) =>
@@ -30,6 +39,7 @@ namespace AniSuki.View
                     dgvCast.DataList = null;
                     txtComment.Text = null;
                     btnExplorer.Enabled = false;
+                    btnFreshResolution.Enabled = false;
                 }
                 else
                 {
@@ -37,6 +47,7 @@ namespace AniSuki.View
                     dgvCast.DataList = new CastList(anime.Casts.ToList());
                     txtComment.Text = anime.Comment;
                     btnExplorer.Enabled = true;
+                    btnFreshResolution.Enabled = true;
                 }
             };
         }
@@ -46,14 +57,8 @@ namespace AniSuki.View
             dgvCast.SetColumns();
             dgvTag.SetColumns();
             btnExplorer.Enabled = false;
+            btnFreshResolution.Enabled = false;
         }
-
-        private string FilterName => txtFilterName.Text;
-        private int? FilterProducerID => ((Producer)cmbFilterProducer.SelectedItem)?.ID;
-        private int? FilterResolutionID => ((Resolution)cmbFilterResolution.SelectedItem)?.ID;
-        private DateTime? FilterSaleDateAfter => dateFilterSaleDateAfter.Value;
-        private DateTime? FilterSaleDateBefore => dateFilterSaleDateAfter.Value;
-
         private void LoadProducers()
         {
             cmbFilterProducer.DataSource = DataAccess.GetProducer().ToList();
@@ -68,7 +73,6 @@ namespace AniSuki.View
             cmbFilterResolution.ValueMember = @"ID";
             cmbFilterResolution.SelectedItem = null;
         }
-
         private void LoadTags()
         {
             clstFilterTagAnd.DataList = new TagList(DataAccess.GetTag().ToList());
@@ -79,7 +83,15 @@ namespace AniSuki.View
             clstFilterVoiceActorAnd.DataList = new VoiceActorList(DataAccess.GetVoiceActor().ToList());
             clstFilterVoiceActorOr.DataList = new VoiceActorList(DataAccess.GetVoiceActor().ToList());
         }
-
+        private void RefreshResolution()
+        {
+            Resolution oldRes = (Resolution)cmbFilterResolution.SelectedItem;
+            LoadResolutions();
+            if(null != oldRes) // 还原原来选中的筛选项
+            {
+                cmbFilterResolution.SelectedIndex = cmbFilterResolution.FindStringExact(oldRes.ResolutionString);
+            }
+        }
         private async void TaskSearch()
         {
             // 生成过滤条件
@@ -142,10 +154,6 @@ namespace AniSuki.View
                 BeginInvoke(new MethodInvoker(() => dgvAnime.DataList = animes));
             });
         }
-        private void BtnSearch_Click(object sender, EventArgs e)
-        {
-            TaskSearch();
-        }
 
         private void FrmBrowse_Load(object sender, EventArgs e)
         {
@@ -154,42 +162,14 @@ namespace AniSuki.View
             LoadTags();
             LoadVoiceActors();
         }
-
-        private void BtnClearName_Click(object sender, EventArgs e)
-        {
-            txtFilterName.Text = null;
-        }
-
-        private void BtnClearProducer_Click(object sender, EventArgs e)
-        {
-            cmbFilterProducer.SelectedItem = null;
-        }
-
-        private void BtnClearResolution_Click(object sender, EventArgs e)
-        {
-            cmbFilterResolution.SelectedItem = null;
-        }
-
-        private void BtnClearTagAnd_Click(object sender, EventArgs e)
-        {
-            clstFilterTagAnd.UncheckAll();
-        }
-
-        private void BtnClearTagOr_Click(object sender, EventArgs e)
-        {
-            clstFilterTagOr.UncheckAll();
-        }
-
-        private void BtnClearVoiceActorAnd_Click(object sender, EventArgs e)
-        {
-            clstFilterVoiceActorAnd.UncheckAll();
-        }
-
-        private void BtnClearVoiceActorOr_Click(object sender, EventArgs e)
-        {
-            clstFilterVoiceActorOr.UncheckAll();
-        }
-
+        private void BtnSearch_Click(object sender, EventArgs e) => TaskSearch();
+        private void BtnClearName_Click(object sender, EventArgs e) => txtFilterName.Text = null;
+        private void BtnClearProducer_Click(object sender, EventArgs e) => cmbFilterProducer.SelectedItem = null;
+        private void BtnClearResolution_Click(object sender, EventArgs e) => cmbFilterResolution.SelectedItem = null;
+        private void BtnClearTagAnd_Click(object sender, EventArgs e) => clstFilterTagAnd.UncheckAll();
+        private void BtnClearTagOr_Click(object sender, EventArgs e) => clstFilterTagOr.UncheckAll();
+        private void BtnClearVoiceActorAnd_Click(object sender, EventArgs e) => clstFilterVoiceActorAnd.UncheckAll();
+        private void BtnClearVoiceActorOr_Click(object sender, EventArgs e) => clstFilterVoiceActorOr.UncheckAll();
         private void BtnClearAll_Click(object sender, EventArgs e)
         {
             txtFilterName.Text = null;
@@ -202,10 +182,49 @@ namespace AniSuki.View
             dateFilterSaleDateAfter.Value = null;
             dateFilterSaleDateBefore.Value = null;
         }
-
         private void BtnExplorer_Click(object sender, EventArgs e)
         {
-            FileTool.OpenDirectory(Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name));
+            string dir = CurrAnimeDir;
+            if(Directory.Exists(dir))
+            {
+                FileTool.OpenDirectory(dir);
+            }
+            else
+            {
+                MessageBoxEx.Error(@"目录不存在！");
+            }
+        }
+        private void BtnFreshResolution_Click(object sender, EventArgs e)
+        {
+            string dir = CurrAnimeDir;
+            if(!Directory.Exists(dir))
+            {
+                MessageBoxEx.Error(@"目录不存在！");
+                return;
+            }
+            Resolution resolution = new Resolution(CurrAnime.Resolution);
+            Resolution maxRes = resolution.ShollowClone();
+            foreach(string file in Directory.GetFiles(dir, @"*.*", SearchOption.TopDirectoryOnly))
+            {
+                if(MediaInfoTool.IsVideo(file))
+                {
+                    maxRes = Resolution.Max(maxRes, new Resolution(MediaInfoTool.GetVideoRes(file)));
+                }
+            }
+            if(maxRes > resolution)
+            {
+                Resolution newRes = DataAccess.UpdateAnimeResolution(maxRes, CurrAnime.ID);
+                dgvAnime.UpdateCurrSelectedItem((ref Anime anime) =>
+                {
+                    anime.ResolutionID = newRes.ID;
+                    anime.Resolution = newRes.ResolutionString;
+                });
+                if(-1 == cmbFilterResolution.FindStringExact(newRes.ResolutionString))
+                {
+                    RefreshResolution(); // 新的分辨率，更新到筛选条件中
+                }
+            }
+            MessageBoxEx.Info(@"更新成功！");
         }
     }
 }
