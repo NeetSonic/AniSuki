@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AniSuki.Model;
 using AniSuki.Util;
+using AniSuki.View.Functional;
 using AniSuki.View.Templete;
 using Neetsonic.Tool;
 
@@ -26,6 +27,7 @@ namespace AniSuki.View
         private DateTime? FilterSaleDateAfter => dateFilterSaleDateAfter.Value;
         private DateTime? FilterSaleDateBefore => dateFilterSaleDateAfter.Value;
         private string CurrAnimeDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name);
+        private string CurrAnimeCoverDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name, @"Cover");
         private Anime CurrAnime => dgvAnime.SelectedItem;
 
         private void BindEvents()
@@ -40,6 +42,10 @@ namespace AniSuki.View
                     txtComment.Text = null;
                     btnExplorer.Enabled = false;
                     btnFreshResolution.Enabled = false;
+                    btnUpdateComment.Enabled = false;
+                    btnUpdateCast.Enabled = false;
+                    btnUpdateTag.Enabled = false;
+                    picCover.Clear();
                 }
                 else
                 {
@@ -48,6 +54,10 @@ namespace AniSuki.View
                     txtComment.Text = anime.Comment;
                     btnExplorer.Enabled = true;
                     btnFreshResolution.Enabled = true;
+                    btnUpdateComment.Enabled = true;
+                    btnUpdateCast.Enabled = true;
+                    btnUpdateTag.Enabled = true;
+                    picCover.ChangePicFiles(Directory.GetFiles(CurrAnimeCoverDir, @"*.*", SearchOption.TopDirectoryOnly));
                 }
             };
         }
@@ -58,6 +68,9 @@ namespace AniSuki.View
             dgvTag.SetColumns();
             btnExplorer.Enabled = false;
             btnFreshResolution.Enabled = false;
+            btnUpdateComment.Enabled = false;
+            btnUpdateCast.Enabled = false;
+            btnUpdateTag.Enabled = false;
         }
         private void LoadProducers()
         {
@@ -225,6 +238,38 @@ namespace AniSuki.View
                 }
             }
             MessageBoxEx.Info(@"更新成功！");
+        }
+        private void BtnUpdateComment_Click(object sender, EventArgs e)
+        {
+            FrmRecomment dlg = new FrmRecomment(CurrAnime.Comment);
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                DataAccess.UpdateAnimeComment(dlg.NewComment, CurrAnime.ID);
+                CurrAnime.Comment = dlg.NewComment;
+                txtComment.Text = dlg.NewComment;
+            }
+        }
+        private void BtnUpdateTag_Click(object sender, EventArgs e)
+        {
+            FrmRetag dlg = new FrmRetag(CurrAnime.Tags.Select(tag => tag.ID));
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                IEnumerable<Tag> newTags = dlg.NewTags;
+                DataAccess.UpdateAnimeTag(newTags, CurrAnime.ID);
+                CurrAnime.Tags = newTags;
+                dgvTag.DataList = new TagList(CurrAnime.Tags.ToList());
+            }
+        }
+        private void BtnUpdateCast_Click(object sender, EventArgs e)
+        {
+            FrmRecast dlg = new FrmRecast(CurrAnime.Casts);
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                IEnumerable<Cast> newCasts = dlg.NewCasts;
+                DataAccess.UpdateAnimeCast(newCasts, CurrAnime.ID);
+                CurrAnime.Casts = newCasts;
+                dgvCast.DataList = new CastList(CurrAnime.Casts.ToList());
+            }
         }
     }
 }

@@ -4,15 +4,15 @@ using AniSuki.View.Templete;
 
 namespace AniSuki.View.Functional
 {
-    public partial class FrmRename : FrmBase
+    public partial class FrmRecomment : FrmBase
     {
-        public FrmRename(string name)
+        public FrmRecomment(string comment)
         {
             InitializeComponent();
-            txtName.Text = name;
-            txtName.Highlight();
+            txtComment.Text = comment;
+            txtComment.Highlight();
         }
-        public string NewName => txtName.Text;
+        public string NewComment => txtComment.Text;
 
         private void BtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
     }

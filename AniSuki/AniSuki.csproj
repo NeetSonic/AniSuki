@@ -155,11 +155,29 @@
     <Compile Include="View\FrmVoiceActor.Designer.cs">
       <DependentUpon>FrmVoiceActor.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Functional\FrmRecast.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Functional\FrmRecast.Designer.cs">
+      <DependentUpon>FrmRecast.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Functional\FrmRecomment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Functional\FrmRecomment.Designer.cs">
+      <DependentUpon>FrmRecomment.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Functional\FrmRename.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\Functional\FrmRename.Designer.cs">
       <DependentUpon>FrmRename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Functional\FrmRetag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Functional\FrmRetag.Designer.cs">
+      <DependentUpon>FrmRetag.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Templete\FrmBase.cs">
       <SubType>Form</SubType>
@@ -197,8 +215,17 @@
     <EmbeddedResource Include="View\FrmVoiceActor.resx">
       <DependentUpon>FrmVoiceActor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Functional\FrmRecast.resx">
+      <DependentUpon>FrmRecast.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Functional\FrmRecomment.resx">
+      <DependentUpon>FrmRecomment.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Functional\FrmRename.resx">
       <DependentUpon>FrmRename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Functional\FrmRetag.resx">
+      <DependentUpon>FrmRetag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Templete\FrmBase.resx">
       <DependentUpon>FrmBase.cs</DependentUpon>

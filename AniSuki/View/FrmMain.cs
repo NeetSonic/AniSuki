@@ -11,32 +11,32 @@ namespace AniSuki.View
 
         private void MenuProducer_Click(object sender, System.EventArgs e)
         {
-            new FrmProducer().ShowDialog();
+            new FrmProducer().Show();
         }
 
         private void MenuResolution_Click(object sender, System.EventArgs e)
         {
-            new FrmResolution().ShowDialog();
+            new FrmResolution().Show();
         }
 
         private void MenuTag_Click(object sender, System.EventArgs e)
         {
-            new FrmTag().ShowDialog();
+            new FrmTag().Show();
         }
 
         private void MenuVoiceActor_Click(object sender, System.EventArgs e)
         {
-            new FrmVoiceActor().ShowDialog();
+            new FrmVoiceActor().Show();
         }
 
         private void btnNewAnime_Click(object sender, System.EventArgs e)
         {
-            new FrmNewAnime().ShowDialog();
+            new FrmNewAnime().Show();
         }
 
         private void btnBrowse_Click(object sender, System.EventArgs e)
         {
-            new FrmBrowse().ShowDialog();
+            new FrmBrowse().Show();
         }
     }
 }

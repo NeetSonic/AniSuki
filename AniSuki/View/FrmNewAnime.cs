@@ -15,14 +15,13 @@ namespace AniSuki.View
 {
     public partial class FrmNewAnime : FrmBase
     {
+        private IList<Resolution> _resolutions;
         public FrmNewAnime()
         {
             InitializeComponent();
             InitControl();
             BindEvent();
         }
-
-        private IList<Resolution> _resolutions;
 
         private IList<Resolution> Resolutions
         {
@@ -34,7 +33,7 @@ namespace AniSuki.View
             }
         }
 
-        private Cast CurrCast{ get; } = new Cast();
+        private Cast CurrCast { get; } = new Cast();
 
         private Anime NewAnime { get; } = new Anime();
 
@@ -336,6 +335,5 @@ namespace AniSuki.View
             dgvAnimeFile.RemoveCurrSelectedItem();
             OnNewAnimeChanged();
         }
-
     }
 }

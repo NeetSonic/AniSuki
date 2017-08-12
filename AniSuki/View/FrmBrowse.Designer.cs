@@ -61,6 +61,10 @@
             this.txtComment = new Neetsonic.Control.TextBox();
             this.btnExplorer = new System.Windows.Forms.Button();
             this.btnFreshResolution = new System.Windows.Forms.Button();
+            this.picCover = new Neetsonic.Control.PictureViewer();
+            this.btnUpdateComment = new System.Windows.Forms.Button();
+            this.btnUpdateTag = new System.Windows.Forms.Button();
+            this.btnUpdateCast = new System.Windows.Forms.Button();
             grpFilter = new Neetsonic.Control.GroupBox();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -388,7 +392,7 @@
             this.dgvAnime.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvAnime.RowTemplate.Height = 23;
             this.dgvAnime.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAnime.Size = new System.Drawing.Size(681, 339);
+            this.dgvAnime.Size = new System.Drawing.Size(681, 384);
             this.dgvAnime.TabIndex = 0;
             // 
             // dgvTag
@@ -401,7 +405,7 @@
             this.dgvTag.BackgroundColor = System.Drawing.Color.White;
             this.dgvTag.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTag.DataList = null;
-            this.dgvTag.Location = new System.Drawing.Point(992, 22);
+            this.dgvTag.Location = new System.Drawing.Point(1239, 310);
             this.dgvTag.MultiSelect = false;
             this.dgvTag.Name = "dgvTag";
             this.dgvTag.OpenLinkInBrowser = false;
@@ -410,7 +414,7 @@
             this.dgvTag.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvTag.RowTemplate.Height = 23;
             this.dgvTag.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTag.Size = new System.Drawing.Size(271, 282);
+            this.dgvTag.Size = new System.Drawing.Size(260, 498);
             this.dgvTag.TabIndex = 11;
             // 
             // dgvCast
@@ -423,7 +427,7 @@
             this.dgvCast.BackgroundColor = System.Drawing.Color.White;
             this.dgvCast.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCast.DataList = null;
-            this.dgvCast.Location = new System.Drawing.Point(699, 22);
+            this.dgvCast.Location = new System.Drawing.Point(1239, 22);
             this.dgvCast.MultiSelect = false;
             this.dgvCast.Name = "dgvCast";
             this.dgvCast.OpenLinkInBrowser = false;
@@ -432,22 +436,22 @@
             this.dgvCast.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvCast.RowTemplate.Height = 23;
             this.dgvCast.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvCast.Size = new System.Drawing.Size(287, 282);
+            this.dgvCast.Size = new System.Drawing.Size(260, 282);
             this.dgvCast.TabIndex = 12;
             // 
             // txtComment
             // 
-            this.txtComment.Location = new System.Drawing.Point(699, 310);
+            this.txtComment.Location = new System.Drawing.Point(12, 700);
             this.txtComment.Multiline = true;
             this.txtComment.Name = "txtComment";
             this.txtComment.ReadOnly = true;
             this.txtComment.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtComment.Size = new System.Drawing.Size(564, 298);
+            this.txtComment.Size = new System.Drawing.Size(681, 149);
             this.txtComment.TabIndex = 13;
             // 
             // btnExplorer
             // 
-            this.btnExplorer.Location = new System.Drawing.Point(699, 616);
+            this.btnExplorer.Location = new System.Drawing.Point(859, 816);
             this.btnExplorer.Name = "btnExplorer";
             this.btnExplorer.Size = new System.Drawing.Size(154, 33);
             this.btnExplorer.TabIndex = 15;
@@ -457,7 +461,7 @@
             // 
             // btnFreshResolution
             // 
-            this.btnFreshResolution.Location = new System.Drawing.Point(859, 616);
+            this.btnFreshResolution.Location = new System.Drawing.Point(1019, 816);
             this.btnFreshResolution.Name = "btnFreshResolution";
             this.btnFreshResolution.Size = new System.Drawing.Size(154, 33);
             this.btnFreshResolution.TabIndex = 16;
@@ -465,11 +469,56 @@
             this.btnFreshResolution.UseVisualStyleBackColor = true;
             this.btnFreshResolution.Click += new System.EventHandler(this.BtnFreshResolution_Click);
             // 
+            // picCover
+            // 
+            this.picCover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picCover.CacheSize = 10;
+            this.picCover.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.picCover.Location = new System.Drawing.Point(701, 22);
+            this.picCover.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.picCover.Name = "picCover";
+            this.picCover.Size = new System.Drawing.Size(531, 786);
+            this.picCover.TabIndex = 17;
+            // 
+            // btnUpdateComment
+            // 
+            this.btnUpdateComment.Location = new System.Drawing.Point(699, 816);
+            this.btnUpdateComment.Name = "btnUpdateComment";
+            this.btnUpdateComment.Size = new System.Drawing.Size(154, 33);
+            this.btnUpdateComment.TabIndex = 18;
+            this.btnUpdateComment.Text = "更新动画简介";
+            this.btnUpdateComment.UseVisualStyleBackColor = true;
+            this.btnUpdateComment.Click += new System.EventHandler(this.BtnUpdateComment_Click);
+            // 
+            // btnUpdateTag
+            // 
+            this.btnUpdateTag.Location = new System.Drawing.Point(1179, 816);
+            this.btnUpdateTag.Name = "btnUpdateTag";
+            this.btnUpdateTag.Size = new System.Drawing.Size(154, 33);
+            this.btnUpdateTag.TabIndex = 19;
+            this.btnUpdateTag.Text = "更新动画标签";
+            this.btnUpdateTag.UseVisualStyleBackColor = true;
+            this.btnUpdateTag.Click += new System.EventHandler(this.BtnUpdateTag_Click);
+            // 
+            // btnUpdateCast
+            // 
+            this.btnUpdateCast.Location = new System.Drawing.Point(1339, 816);
+            this.btnUpdateCast.Name = "btnUpdateCast";
+            this.btnUpdateCast.Size = new System.Drawing.Size(154, 33);
+            this.btnUpdateCast.TabIndex = 20;
+            this.btnUpdateCast.Text = "更新动画配音";
+            this.btnUpdateCast.UseVisualStyleBackColor = true;
+            this.btnUpdateCast.Click += new System.EventHandler(this.BtnUpdateCast_Click);
+            // 
             // FrmBrowse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1532, 661);
+            this.ClientSize = new System.Drawing.Size(1510, 861);
+            this.Controls.Add(this.btnUpdateCast);
+            this.Controls.Add(this.btnUpdateTag);
+            this.Controls.Add(this.btnUpdateComment);
+            this.Controls.Add(this.picCover);
             this.Controls.Add(this.btnFreshResolution);
             this.Controls.Add(this.btnExplorer);
             this.Controls.Add(grpFilter);
@@ -526,5 +575,9 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button btnExplorer;
         private System.Windows.Forms.Button btnFreshResolution;
+        private Neetsonic.Control.PictureViewer picCover;
+        private System.Windows.Forms.Button btnUpdateComment;
+        private System.Windows.Forms.Button btnUpdateTag;
+        private System.Windows.Forms.Button btnUpdateCast;
     }
 }
