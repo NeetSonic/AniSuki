@@ -45,6 +45,7 @@ namespace AniSuki.View
                     btnUpdateComment.Enabled = false;
                     btnUpdateCast.Enabled = false;
                     btnUpdateTag.Enabled = false;
+                    btnUpdateSaleDate.Enabled = false;
                     picCover.Clear();
                 }
                 else
@@ -57,6 +58,7 @@ namespace AniSuki.View
                     btnUpdateComment.Enabled = true;
                     btnUpdateCast.Enabled = true;
                     btnUpdateTag.Enabled = true;
+                    btnUpdateSaleDate.Enabled = true;
                     picCover.ChangePicFiles(Directory.GetFiles(CurrAnimeCoverDir, @"*.*", SearchOption.TopDirectoryOnly));
                 }
             };
@@ -71,6 +73,7 @@ namespace AniSuki.View
             btnUpdateComment.Enabled = false;
             btnUpdateCast.Enabled = false;
             btnUpdateTag.Enabled = false;
+            btnUpdateSaleDate.Enabled = false;
         }
         private void LoadProducers()
         {
@@ -216,15 +219,9 @@ namespace AniSuki.View
                 return;
             }
             Resolution resolution = new Resolution(CurrAnime.Resolution);
-            Resolution maxRes = resolution.ShollowClone();
-            foreach(string file in Directory.GetFiles(dir, @"*.*", SearchOption.TopDirectoryOnly))
-            {
-                if(MediaInfoTool.IsVideo(file))
-                {
-                    maxRes = Resolution.Max(maxRes, new Resolution(MediaInfoTool.GetVideoRes(file)));
-                }
-            }
-            if(maxRes > resolution)
+            Resolution maxRes = null;
+            maxRes = Directory.GetFiles(dir, @"*.*", SearchOption.TopDirectoryOnly).Where(MediaInfoTool.IsVideo).Aggregate(maxRes, (current, file) => Resolution.Max(current, new Resolution(MediaInfoTool.GetVideoRes(file))));
+            if(maxRes > resolution || maxRes < resolution)
             {
                 Resolution newRes = DataAccess.UpdateAnimeResolution(maxRes, CurrAnime.ID);
                 dgvAnime.UpdateCurrSelectedItem((ref Anime anime) =>
@@ -269,6 +266,16 @@ namespace AniSuki.View
                 DataAccess.UpdateAnimeCast(newCasts, CurrAnime.ID);
                 CurrAnime.Casts = newCasts;
                 dgvCast.DataList = new CastList(CurrAnime.Casts.ToList());
+            }
+        }
+
+        private void BtnUpdateSaleDate_Click(object sender, EventArgs e)
+        {
+            FrmRedate dlg = new FrmRedate(CurrAnime.SaleDate);
+            if(DialogResult.OK == dlg.ShowDialog())
+            {
+                DataAccess.UpdateAnimeSaleDate(dlg.NewDate.Date, CurrAnime.ID);
+                dgvAnime.UpdateCurrSelectedItem((ref Anime anime) => anime.SaleDate = dlg.NewDate.Date);
             }
         }
     }

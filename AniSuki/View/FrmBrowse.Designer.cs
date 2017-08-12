@@ -65,6 +65,7 @@
             this.btnUpdateComment = new System.Windows.Forms.Button();
             this.btnUpdateTag = new System.Windows.Forms.Button();
             this.btnUpdateCast = new System.Windows.Forms.Button();
+            this.btnUpdateSaleDate = new System.Windows.Forms.Button();
             grpFilter = new Neetsonic.Control.GroupBox();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -392,7 +393,7 @@
             this.dgvAnime.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvAnime.RowTemplate.Height = 23;
             this.dgvAnime.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAnime.Size = new System.Drawing.Size(681, 384);
+            this.dgvAnime.Size = new System.Drawing.Size(681, 539);
             this.dgvAnime.TabIndex = 0;
             // 
             // dgvTag
@@ -441,19 +442,19 @@
             // 
             // txtComment
             // 
-            this.txtComment.Location = new System.Drawing.Point(12, 700);
+            this.txtComment.Location = new System.Drawing.Point(701, 647);
             this.txtComment.Multiline = true;
             this.txtComment.Name = "txtComment";
             this.txtComment.ReadOnly = true;
             this.txtComment.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtComment.Size = new System.Drawing.Size(681, 149);
+            this.txtComment.Size = new System.Drawing.Size(531, 161);
             this.txtComment.TabIndex = 13;
             // 
             // btnExplorer
             // 
-            this.btnExplorer.Location = new System.Drawing.Point(859, 816);
+            this.btnExplorer.Location = new System.Drawing.Point(834, 816);
             this.btnExplorer.Name = "btnExplorer";
-            this.btnExplorer.Size = new System.Drawing.Size(154, 33);
+            this.btnExplorer.Size = new System.Drawing.Size(120, 33);
             this.btnExplorer.TabIndex = 15;
             this.btnExplorer.Text = "打开文件目录";
             this.btnExplorer.UseVisualStyleBackColor = true;
@@ -461,9 +462,9 @@
             // 
             // btnFreshResolution
             // 
-            this.btnFreshResolution.Location = new System.Drawing.Point(1019, 816);
+            this.btnFreshResolution.Location = new System.Drawing.Point(969, 816);
             this.btnFreshResolution.Name = "btnFreshResolution";
-            this.btnFreshResolution.Size = new System.Drawing.Size(154, 33);
+            this.btnFreshResolution.Size = new System.Drawing.Size(120, 33);
             this.btnFreshResolution.TabIndex = 16;
             this.btnFreshResolution.Text = "刷新分辨率";
             this.btnFreshResolution.UseVisualStyleBackColor = true;
@@ -477,14 +478,14 @@
             this.picCover.Location = new System.Drawing.Point(701, 22);
             this.picCover.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.picCover.Name = "picCover";
-            this.picCover.Size = new System.Drawing.Size(531, 786);
+            this.picCover.Size = new System.Drawing.Size(531, 617);
             this.picCover.TabIndex = 17;
             // 
             // btnUpdateComment
             // 
             this.btnUpdateComment.Location = new System.Drawing.Point(699, 816);
             this.btnUpdateComment.Name = "btnUpdateComment";
-            this.btnUpdateComment.Size = new System.Drawing.Size(154, 33);
+            this.btnUpdateComment.Size = new System.Drawing.Size(120, 33);
             this.btnUpdateComment.TabIndex = 18;
             this.btnUpdateComment.Text = "更新动画简介";
             this.btnUpdateComment.UseVisualStyleBackColor = true;
@@ -492,9 +493,9 @@
             // 
             // btnUpdateTag
             // 
-            this.btnUpdateTag.Location = new System.Drawing.Point(1179, 816);
+            this.btnUpdateTag.Location = new System.Drawing.Point(1239, 816);
             this.btnUpdateTag.Name = "btnUpdateTag";
-            this.btnUpdateTag.Size = new System.Drawing.Size(154, 33);
+            this.btnUpdateTag.Size = new System.Drawing.Size(120, 33);
             this.btnUpdateTag.TabIndex = 19;
             this.btnUpdateTag.Text = "更新动画标签";
             this.btnUpdateTag.UseVisualStyleBackColor = true;
@@ -502,19 +503,30 @@
             // 
             // btnUpdateCast
             // 
-            this.btnUpdateCast.Location = new System.Drawing.Point(1339, 816);
+            this.btnUpdateCast.Location = new System.Drawing.Point(1374, 816);
             this.btnUpdateCast.Name = "btnUpdateCast";
-            this.btnUpdateCast.Size = new System.Drawing.Size(154, 33);
+            this.btnUpdateCast.Size = new System.Drawing.Size(120, 33);
             this.btnUpdateCast.TabIndex = 20;
             this.btnUpdateCast.Text = "更新动画配音";
             this.btnUpdateCast.UseVisualStyleBackColor = true;
             this.btnUpdateCast.Click += new System.EventHandler(this.BtnUpdateCast_Click);
+            // 
+            // btnUpdateSaleDate
+            // 
+            this.btnUpdateSaleDate.Location = new System.Drawing.Point(1104, 816);
+            this.btnUpdateSaleDate.Name = "btnUpdateSaleDate";
+            this.btnUpdateSaleDate.Size = new System.Drawing.Size(120, 33);
+            this.btnUpdateSaleDate.TabIndex = 21;
+            this.btnUpdateSaleDate.Text = "更新发售时间";
+            this.btnUpdateSaleDate.UseVisualStyleBackColor = true;
+            this.btnUpdateSaleDate.Click += new System.EventHandler(this.BtnUpdateSaleDate_Click);
             // 
             // FrmBrowse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1510, 861);
+            this.Controls.Add(this.btnUpdateSaleDate);
             this.Controls.Add(this.btnUpdateCast);
             this.Controls.Add(this.btnUpdateTag);
             this.Controls.Add(this.btnUpdateComment);
@@ -579,5 +591,6 @@
         private System.Windows.Forms.Button btnUpdateComment;
         private System.Windows.Forms.Button btnUpdateTag;
         private System.Windows.Forms.Button btnUpdateCast;
+        private System.Windows.Forms.Button btnUpdateSaleDate;
     }
 }

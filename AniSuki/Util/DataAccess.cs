@@ -74,19 +74,8 @@ namespace AniSuki.Util
                     sql = string.Format($@"SELECT TagID AS ID, Tag AS Name FROM AnimeTag WHERE AnimeID = {anime.ID}  SELECT VoiceActorID, VoiceActor, CharaName FROM Cast WHERE AnimeID = {anime.ID}");
                     using(DataSet dataSet = ExecuteQuery(sql))
                     {
-                        List<Tag> tags = new List<Tag>();
-                        foreach(DataRow dr in dataSet.Tables[0].Rows)
-                        {
-                            tags.Add(Tag.FromDataRow(dr));
-                        }
-                        anime.Tags = tags;
-
-                        List<Cast> casts = new List<Cast>();
-                        foreach(DataRow dr in dataSet.Tables[1].Rows)
-                        {
-                            casts.Add(Cast.FromDataRow(dr));
-                        }
-                        anime.Casts = casts;
+                        anime.Tags =  from DataRow dr in dataSet.Tables[0].Rows select Tag.FromDataRow(dr);
+                        anime.Casts = from DataRow dr in dataSet.Tables[1].Rows select Cast.FromDataRow(dr);
                     }
                     animes.Add(anime);
                 }
@@ -112,7 +101,7 @@ namespace AniSuki.Util
         public static void UpdateAnimeComment(string comment, int animeID) => ExecuteNonQuery(@"UPDATE Anime SET Comment = @Comment WHERE ID = @ID", new[] {new SqlParameter(@"@Comment", SqlDbType.NVarChar) {Value = SqlParameterEx.NullableString(comment)}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = animeID}});
         public static void UpdateAnimeTag(IEnumerable<Tag> tags, int animeID)
         {
-            ExecuteNonQuery(@" DELETE FROM AnimeTag WHERE AnimeID = @AnimeID", new []{new SqlParameter(@"@AnimeID", SqlDbType.Int){Value = animeID}});
+            ExecuteNonQuery(@" DELETE FROM AnimeTag WHERE AnimeID = @AnimeID", new[] {new SqlParameter(@"@AnimeID", SqlDbType.Int) {Value = animeID}});
             if(tags.Any())
             {
                 ExecuteNonQuery(string.Format($@"INSERT INTO AnimeTag(AnimeID, TagID, Tag) VALUES {string.Join(",", tags.Select(tag => string.Format($@"({animeID}, {tag.ID}, N'{tag.Name}')")))}"));
@@ -120,11 +109,12 @@ namespace AniSuki.Util
         }
         public static void UpdateAnimeCast(IEnumerable<Cast> casts, int animeID)
         {
-            ExecuteNonQuery(@" DELETE FROM Cast WHERE AnimeID = @AnimeID", new[] { new SqlParameter(@"@AnimeID", SqlDbType.Int) { Value = animeID } });
+            ExecuteNonQuery(@" DELETE FROM Cast WHERE AnimeID = @AnimeID", new[] {new SqlParameter(@"@AnimeID", SqlDbType.Int) {Value = animeID}});
             if(casts.Any())
             {
                 ExecuteNonQuery(string.Format($@"INSERT INTO [Cast](AnimeID, VoiceActorID, VoiceActor, CharaName) VALUES {string.Join(",", casts.Select(cast => string.Format($@"({animeID}, {cast.VoiceActorID}, N'{cast.VoiceActor}', N'{cast.CharaName}')")))}"));
             }
         }
+        public static void UpdateAnimeSaleDate(DateTime date, int animeID) => ExecuteNonQuery(@"UPDATE Anime SET SaleDate = @SaleDate WHERE ID = @ID", new[] {new SqlParameter(@"@SaleDate", SqlDbType.DateTime) {Value = date}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = animeID}});
     }
 }
