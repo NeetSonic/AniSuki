@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using Neetsonic.Tool;
 
 namespace AniSuki.Model
 {
@@ -12,9 +13,9 @@ namespace AniSuki.Model
 
         public static Cast FromDataRow(DataRow dr) => new Cast
         {
-            VoiceActorID = dr.Field<int>(nameof(VoiceActorID)),
-            CharaName = dr.Field<string>(nameof(CharaName)),
-            VoiceActor = dr.Field<string>(nameof(VoiceActor))
+            VoiceActorID = dr.FieldInt(nameof(VoiceActorID)),
+            CharaName = dr.FieldString(nameof(CharaName)),
+            VoiceActor = dr.FieldString(nameof(VoiceActor))
         };
         public Cast ShollowClone() => (Cast)MemberwiseClone();
     }

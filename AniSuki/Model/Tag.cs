@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using Neetsonic.Tool;
 
 namespace AniSuki.Model
 {
     public sealed class Tag
     {
-        public int ID{ get; set; }
-        public string Name{ get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
-        public static Tag FromDataRow(DataRow dr)
+        public static Tag FromDataRow(DataRow dr) => new Tag
         {
-            return new Tag
-            {
-                ID = dr.Field<int>(nameof(ID)),
-                Name = dr.Field<string>(nameof(Name))
-            };
-        }
-        public Tag ShollowClone()
-        {
-            return (Tag)MemberwiseClone();
-        }
+            ID = dr.FieldInt(nameof(ID)),
+            Name = dr.FieldString(nameof(Name))
+        };
+        public Tag ShollowClone() => (Tag)MemberwiseClone();
     }
 
     public sealed class TagList : Neetsonic.DataStructure.BindingList<Tag>

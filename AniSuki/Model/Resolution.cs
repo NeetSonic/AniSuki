@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
+using Neetsonic.Tool;
 
 namespace AniSuki.Model
 {
@@ -22,63 +22,38 @@ namespace AniSuki.Model
             Height = short.Parse(res.Substring(flag + 1));
         }
 
-        public int ID{ get; set; }
-        public short Width{ get; set; }
-        public short Height{ get; set; }
+        public int ID { get; set; }
+        public short Width { get; set; }
+        public short Height { get; set; }
         public string ResolutionString => string.Format($@"{Width}x{Height}");
 
         public static bool operator >(Resolution r1, Resolution r2)
         {
-            if(null == r1)
-            {
-                return false;
-            }
-            if(null == r2)
-            {
-                return true;
-            }
+            if(r1 is null) return false;
+            if(r2 is null) return true;
             return r1.Width == r2.Width ? r1.Height > r2.Height : r1.Width > r2.Width;
         }
         public static bool operator <(Resolution r1, Resolution r2)
         {
-            if(null == r2)
-            {
-                return false;
-            }
-            if(null == r1)
-            {
-                return true;
-            }
+            if(r2 is null) return false;
+            if(r1 is null) return true;
             return r1.Width == r2.Width ? r1.Height < r2.Height : r1.Width < r2.Width;
         }
         public static int operator -(Resolution r1, Resolution r2)
         {
-            if(r1 > r2)
-            {
-                return 1;
-            }
-            if(r1 < r2)
-            {
-                return -1;
-            }
+            if(r1 > r2) return 1;
+            if(r1 < r2) return -1;
             return 0;
         }
         public static Resolution Max(Resolution r1, Resolution r2) => r1 > r2 ? r1 : r2;
-        public static Resolution FromDataRow(DataRow dr)
+        public static Resolution FromDataRow(DataRow dr) => new Resolution
         {
-            return new Resolution
-            {
-                ID = dr.Field<int>(nameof(ID)),
-                Width = dr.Field<short>(nameof(Width)),
-                Height = dr.Field<short>(nameof(Height))
-            };
-        }
-        public Resolution ShollowClone()
-        {
-            return (Resolution)MemberwiseClone();
-        }
-        public bool ValueEquals(Resolution res)=>Width == res.Width && Height == res.Height;
-        
+            ID = dr.FieldInt(nameof(ID)),
+            Width = dr.FieldShort(nameof(Width)),
+            Height = dr.FieldShort(nameof(Height))
+        };
+        public Resolution ShollowClone() => (Resolution)MemberwiseClone();
+        public bool ValueEquals(Resolution res) => Width == res.Width && Height == res.Height;
     }
 
     public sealed class ResolutionList : Neetsonic.DataStructure.BindingList<Resolution>
@@ -88,8 +63,7 @@ namespace AniSuki.Model
         protected override int Cmp(PropertyDescriptor property, ListSortDirection direction, Resolution x, Resolution y)
         {
             int flag = direction == ListSortDirection.Ascending ? 1 : -1;
-            int ret = x.Width - y.Width;
-            return flag * (ret == 0 ? x.Height - y.Height : ret);
+            return flag * (x - y);
         }
     }
 }

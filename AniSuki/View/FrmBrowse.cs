@@ -196,7 +196,18 @@ namespace AniSuki.View
             }
             Resolution resolution = new Resolution(CurrAnime.Resolution);
             Resolution maxRes = null;
-            maxRes = Directory.GetFiles(dir, @"*.*", SearchOption.TopDirectoryOnly).Where(MediaInfoTool.IsVideo).Aggregate(maxRes, (current, file) => Resolution.Max(current, new Resolution(MediaInfoTool.GetVideoRes(file))));
+            foreach(string file in Directory.GetFiles(dir, @"*.*", SearchOption.TopDirectoryOnly))
+            {
+                if(MediaInfoTool.IsVideo(file))
+                {
+                    maxRes = Resolution.Max(maxRes, new Resolution(MediaInfoTool.GetVideoRes(file)));
+                }
+            }
+            if(maxRes is null)
+            {
+                MessageBoxEx.Info(@"目录下没有检测到视频文件！");
+                return;
+            }
             if(maxRes > resolution || maxRes < resolution)
             {
                 Resolution newRes = DataAccess.UpdateAnimeResolution(maxRes, CurrAnime.ID);

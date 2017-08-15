@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using Neetsonic.Tool;
 
 namespace AniSuki.Model
 {
     public sealed class VoiceActor
     {
-        public int ID{ get; set; }
-        public string Name{ get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
 
-        public static VoiceActor FromDataRow(DataRow dr)
+        public static VoiceActor FromDataRow(DataRow dr) => new VoiceActor
         {
-            return new VoiceActor
-            {
-                ID = dr.Field<int>(nameof(ID)),
-                Name = dr.Field<string>(nameof(Name))
-            };
-        }
-        public VoiceActor ShollowClone()
-        {
-            return (VoiceActor)MemberwiseClone();
-        }
+            ID = dr.FieldInt(nameof(ID)),
+            Name = dr.FieldString(nameof(Name))
+        };
+        public VoiceActor ShollowClone() => (VoiceActor)MemberwiseClone();
     }
 
     public sealed class VoiceActorList : Neetsonic.DataStructure.BindingList<VoiceActor>
