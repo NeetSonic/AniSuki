@@ -7,32 +7,29 @@ namespace AniSuki.Model
 {
     public sealed class Anime
     {
+        public IEnumerable<Cast> Casts { get; set; }
+        public string Comment { get; set; }
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Comment { get; set; }
-        public DateTime SaleDate { get; set; }
-        public int ProducerID { get; set; }
         public string Producer { get; set; }
-        public int ResolutionID { get; set; }
+        public int ProducerID { get; set; }
         public string Resolution { get; set; }
-        public IEnumerable<Tag> Tags { get; set; }
-        public IEnumerable<Cast> Casts { get; set; }
+        public int ResolutionID { get; set; }
+        public DateTime SaleDate { get; set; }
         public string SaleDateString => SaleDate.ToShortDateString();
+        public IEnumerable<Tag> Tags { get; set; }
 
-        public static Anime FromDataRow(DataRow row)
+        public static Anime FromDataRow(DataRow row) => new Anime
         {
-            return new Anime
-            {
-                ID = row.Field<int>(nameof(ID)),
-                Name = row.Field<string>(nameof(Name)),
-                Comment = row.Field<string>(nameof(Comment)),
-                SaleDate = row.Field<DateTime>(nameof(SaleDate)),
-                ProducerID = row.Field<int>(nameof(ProducerID)),
-                Producer = row.Field<string>(nameof(Producer)),
-                ResolutionID = row.Field<int>(nameof(ResolutionID)),
-                Resolution = row.Field<string>(nameof(Resolution))
-            };
-        }
+            ID = row.Field<int>(nameof(ID)),
+            Name = row.Field<string>(nameof(Name)),
+            Comment = row.Field<string>(nameof(Comment)),
+            SaleDate = row.Field<DateTime>(nameof(SaleDate)),
+            ProducerID = row.Field<int>(nameof(ProducerID)),
+            Producer = row.Field<string>(nameof(Producer)),
+            ResolutionID = row.Field<int>(nameof(ResolutionID)),
+            Resolution = row.Field<string>(nameof(Resolution))
+        };
     }
 
     public sealed class AnimeList : Neetsonic.DataStructure.BindingList<Anime>
@@ -68,13 +65,7 @@ namespace AniSuki.Model
             }
         }
 
-        private static int CompareName(Anime x, Anime y)
-        {
-            return string.Compare(x.Name, y.Name, StringComparison.CurrentCulture);
-        }
-        private static int FinalResult(int ret, Anime x, Anime y)
-        {
-            return ret == 0 ? CompareName(x, y) : ret;
-        }
+        private static int CompareName(Anime x, Anime y) => string.Compare(x.Name, y.Name, StringComparison.CurrentCulture);
+        private static int FinalResult(int ret, Anime x, Anime y) => ret == 0 ? CompareName(x, y) : ret;
     }
 }

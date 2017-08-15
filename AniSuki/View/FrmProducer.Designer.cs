@@ -44,6 +44,24 @@
             this.cmsDgvProducer.SuspendLayout();
             this.SuspendLayout();
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(8, 407);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(65, 20);
+            label1.TabIndex = 5;
+            label1.Text = "公司名称";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(8, 445);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(65, 20);
+            label2.TabIndex = 6;
+            label2.Text = "官方网站";
+            // 
             // dgvProducer
             // 
             this.dgvProducer.AllowUserToAddRows = false;
@@ -73,13 +91,13 @@
             this.cmsDgvProducer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuDelete});
             this.cmsDgvProducer.Name = "cmsDgvProducer";
-            this.cmsDgvProducer.Size = new System.Drawing.Size(107, 28);
+            this.cmsDgvProducer.Size = new System.Drawing.Size(153, 50);
             this.cmsDgvProducer.Opening += new System.ComponentModel.CancelEventHandler(this.CmsDgvProducer_Opening);
             // 
             // menuDelete
             // 
             this.menuDelete.Name = "menuDelete";
-            this.menuDelete.Size = new System.Drawing.Size(106, 24);
+            this.menuDelete.Size = new System.Drawing.Size(152, 24);
             this.menuDelete.Text = "删除";
             this.menuDelete.Click += new System.EventHandler(this.MenuDelete_Click);
             // 
@@ -119,25 +137,7 @@
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(8, 407);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(65, 20);
-            label1.TabIndex = 5;
-            label1.Text = "公司名称";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(8, 445);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(65, 20);
-            label2.TabIndex = 6;
-            label2.Text = "官方网站";
-            // 
-            // FrmManageProducer
+            // FrmProducer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -149,7 +149,7 @@
             this.Controls.Add(this.txtWebsite);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.dgvProducer);
-            this.Name = "FrmManageProducer";
+            this.Name = "FrmProducer";
             this.Text = "管理出版公司";
             this.Load += new System.EventHandler(this.FrmProducer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducer)).EndInit();

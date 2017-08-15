@@ -63,28 +63,28 @@
             // menuProducer
             // 
             this.menuProducer.Name = "menuProducer";
-            this.menuProducer.Size = new System.Drawing.Size(152, 22);
+            this.menuProducer.Size = new System.Drawing.Size(124, 22);
             this.menuProducer.Text = "出版公司";
             this.menuProducer.Click += new System.EventHandler(this.MenuProducer_Click);
             // 
             // menuResolution
             // 
             this.menuResolution.Name = "menuResolution";
-            this.menuResolution.Size = new System.Drawing.Size(152, 22);
+            this.menuResolution.Size = new System.Drawing.Size(124, 22);
             this.menuResolution.Text = "分辨率";
             this.menuResolution.Click += new System.EventHandler(this.MenuResolution_Click);
             // 
             // menuTag
             // 
             this.menuTag.Name = "menuTag";
-            this.menuTag.Size = new System.Drawing.Size(152, 22);
+            this.menuTag.Size = new System.Drawing.Size(124, 22);
             this.menuTag.Text = "标签";
             this.menuTag.Click += new System.EventHandler(this.MenuTag_Click);
             // 
             // menuVoiceActor
             // 
             this.menuVoiceActor.Name = "menuVoiceActor";
-            this.menuVoiceActor.Size = new System.Drawing.Size(152, 22);
+            this.menuVoiceActor.Size = new System.Drawing.Size(124, 22);
             this.menuVoiceActor.Text = "声优";
             this.menuVoiceActor.Click += new System.EventHandler(this.MenuVoiceActor_Click);
             // 
@@ -97,7 +97,7 @@
             this.btnNewAnime.TabIndex = 1;
             this.btnNewAnime.Text = "添加";
             this.btnNewAnime.UseVisualStyleBackColor = true;
-            this.btnNewAnime.Click += new System.EventHandler(this.btnNewAnime_Click);
+            this.btnNewAnime.Click += new System.EventHandler(this.BtnNewAnime_Click);
             // 
             // btnBrowse
             // 
@@ -108,13 +108,13 @@
             this.btnBrowse.TabIndex = 2;
             this.btnBrowse.Text = "浏览";
             this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_Click);
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 112);
+            this.ClientSize = new System.Drawing.Size(303, 103);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.btnNewAnime);
             this.Controls.Add(this.menuMain);

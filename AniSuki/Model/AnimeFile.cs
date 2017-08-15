@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 
 namespace AniSuki.Model
 {
     public class AnimeFile
     {
-        public AnimeFile(string filePath)
-        {
-            FilePath = filePath;
-        }
+        public AnimeFile(string filePath) => FilePath = filePath;
 
         private string _rename;
 
-        public string FilePath{ get; set; }
+        public string FilePath { get; set; }
         public string Name => Path.GetFileName(FilePath);
         public string Rename
         {
@@ -23,10 +18,7 @@ namespace AniSuki.Model
             set => _rename = value;
         }
 
-        public AnimeFile ShollowClone()
-        {
-            return (AnimeFile)MemberwiseClone();
-        }
+        public AnimeFile ShollowClone() => (AnimeFile)MemberwiseClone();
     }
 
     public sealed class AnimeFileList : Neetsonic.DataStructure.BindingList<AnimeFile>

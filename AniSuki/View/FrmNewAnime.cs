@@ -15,13 +15,19 @@ namespace AniSuki.View
 {
     public partial class FrmNewAnime : FrmBase
     {
-        private IList<Resolution> _resolutions;
         public FrmNewAnime()
         {
             InitializeComponent();
             InitControl();
             BindEvent();
         }
+        private IList<Resolution> _resolutions;
+
+        private AnimeFileList AnimeFiles => (AnimeFileList)dgvAnimeFile.DataList;
+
+        private Cast CurrCast { get; } = new Cast();
+
+        private Anime NewAnime { get; } = new Anime();
 
         private IList<Resolution> Resolutions
         {
@@ -32,12 +38,6 @@ namespace AniSuki.View
                 OnResolutionsChanged();
             }
         }
-
-        private Cast CurrCast { get; } = new Cast();
-
-        private Anime NewAnime { get; } = new Anime();
-
-        private AnimeFileList AnimeFiles => (AnimeFileList)dgvAnimeFile.DataList;
 
         private void OnNewAnimeChanged()
         {
@@ -186,24 +186,18 @@ namespace AniSuki.View
             {
                 Resolution maxRes = (Resolution)cmbResolution.SelectedItem;
                 foreach(string filePath in fileDlg.FileNames)
-                {
                     if(dgvAnimeFile.DataList.All(file => file.FilePath != filePath))
                     {
                         if(MediaInfoTool.IsVideo(filePath))
-                        {
                             maxRes = Resolution.Max(new Resolution(MediaInfoTool.GetVideoRes(filePath)), maxRes);
-                        }
                         dgvAnimeFile.AddItem(new AnimeFile(filePath));
                     }
-                }
 
                 if(null != maxRes)
                 {
                     Resolution theRes = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
                     if(null != theRes)
-                    {
                         cmbResolution.SelectedItem = theRes;
-                    }
                     else
                     {
                         DataAccess.NewResolution(maxRes);
@@ -219,9 +213,7 @@ namespace AniSuki.View
         {
             FrmRename frmRename = new FrmRename(Path.GetFileNameWithoutExtension(dgvAnimeFile.SelectedItem.Rename));
             if(DialogResult.OK == frmRename.ShowDialog())
-            {
                 dgvAnimeFile.UpdateCurrSelectedItem((ref AnimeFile file) => file.Rename = string.Concat(frmRename.NewName, Path.GetExtension(file.FilePath)));
-            }
         }
 
         private void FrmNewAnime_Load(object sender, EventArgs e)

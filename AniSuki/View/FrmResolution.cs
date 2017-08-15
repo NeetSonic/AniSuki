@@ -18,10 +18,19 @@ namespace AniSuki.View
             InitControl();
             BindEvent();
         }
+        private Resolution _currResolution = new Resolution();
 
         private ResolutionList _resolutions;
-        private Resolution _currResolution = new Resolution();
         private Resolution _selectedResolution;
+        private Resolution CurrResolution
+        {
+            get => _currResolution;
+            set
+            {
+                _currResolution = value;
+                OnCurrResolutionChanged();
+            }
+        }
 
         private ResolutionList Resolutions
         {
@@ -30,15 +39,6 @@ namespace AniSuki.View
             {
                 _resolutions = value;
                 OnResolutionsChanged();
-            }
-        }
-        private Resolution CurrResolution
-        {
-            get => _currResolution;
-            set
-            {
-                _currResolution = value;
-                OnCurrResolutionChanged();
             }
         }
         private Resolution SelectedResolution
