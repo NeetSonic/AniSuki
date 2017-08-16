@@ -21,14 +21,12 @@ namespace AniSuki.View
             InitControl();
             BindEvent();
         }
+
         private IList<Resolution> _resolutions;
 
         private AnimeFileList AnimeFiles => (AnimeFileList)dgvAnimeFile.DataList;
-
         private Cast CurrCast { get; } = new Cast();
-
         private Anime NewAnime { get; } = new Anime();
-
         private IList<Resolution> Resolutions
         {
             get => _resolutions;
@@ -52,12 +50,7 @@ namespace AniSuki.View
                     &&
                     AnimeFiles.Count > 0;
         }
-
-        private void OnCurrCastChanged()
-        {
-            btnNewCast.Enabled = !string.IsNullOrWhiteSpace(CurrCast?.CharaName) && CurrCast?.VoiceActorID != 0;
-        }
-
+        private void OnCurrCastChanged() => btnNewCast.Enabled = !string.IsNullOrWhiteSpace(CurrCast?.CharaName) && CurrCast?.VoiceActorID != 0;
         private void OnResolutionsChanged()
         {
             cmbResolution.DataSource = Resolutions;
@@ -73,7 +66,6 @@ namespace AniSuki.View
             btnNewCast.Enabled = false;
             btnNewAnime.Enabled = false;
         }
-
         private void BindEvent()
         {
             txtCharaName.TextChanged += (sender, args) =>
@@ -84,7 +76,7 @@ namespace AniSuki.View
             cmbVoiceActor.SelectedIndexChanged += (sender, args) =>
             {
                 VoiceActor voiceActor = (VoiceActor)cmbVoiceActor.SelectedItem;
-                if(null == voiceActor)
+                if(voiceActor is null)
                 {
                     CurrCast.VoiceActorID = 0;
                     CurrCast.VoiceActor = null;
@@ -104,7 +96,7 @@ namespace AniSuki.View
             cmbProducer.SelectedIndexChanged += (sender, args) =>
             {
                 Producer producer = (Producer)cmbProducer.SelectedItem;
-                if(null == producer)
+                if(producer is null)
                 {
                     NewAnime.ProducerID = 0;
                     NewAnime.Producer = null;
@@ -119,7 +111,7 @@ namespace AniSuki.View
             cmbResolution.SelectedIndexChanged += (sender, args) =>
             {
                 Resolution resolution = (Resolution)cmbResolution.SelectedItem;
-                if(null == resolution)
+                if(resolution is null)
                 {
                     NewAnime.ResolutionID = 0;
                     NewAnime.Resolution = null;
@@ -138,17 +130,8 @@ namespace AniSuki.View
             };
             txtComment.TextChanged += (sender, args) => NewAnime.Comment = txtComment.Text;
         }
-
-        private void LoadAnimeFile()
-        {
-            dgvAnimeFile.DataList = new AnimeFileList();
-        }
-
-        private void LoadResolutions()
-        {
-            Resolutions = DataAccess.GetResolution().ToList();
-        }
-
+        private void LoadAnimeFile() => dgvAnimeFile.DataList = new AnimeFileList();
+        private void LoadResolutions() => Resolutions = DataAccess.GetResolution().ToList();
         private void LoadProducers()
         {
             cmbProducer.DataSource = DataAccess.GetProducer().ToList();
@@ -156,12 +139,7 @@ namespace AniSuki.View
             cmbProducer.ValueMember = @"ID";
             cmbProducer.SelectedItem = null;
         }
-
-        private void LoadTags()
-        {
-            clstTag.DataList = new TagList(DataAccess.GetTag().ToList());
-        }
-
+        private void LoadTags() => clstTag.DataList = new TagList(DataAccess.GetTag().ToList());
         private void LoadVoiceActors()
         {
             cmbVoiceActor.DataSource = DataAccess.GetVoiceActor().ToList();
@@ -169,122 +147,8 @@ namespace AniSuki.View
             cmbVoiceActor.ValueMember = @"ID";
             cmbVoiceActor.SelectedItem = null;
         }
-
-        private void LoadCast()
-        {
-            dgvCast.DataList = new CastList();
-        }
-
-        private void BtnNewFile_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileDlg = new OpenFileDialog
-            {
-                Multiselect = true,
-                Title = @"添加文件"
-            };
-            if(DialogResult.OK == fileDlg.ShowDialog())
-            {
-                Resolution maxRes = (Resolution)cmbResolution.SelectedItem;
-                foreach(string filePath in fileDlg.FileNames)
-                    if(dgvAnimeFile.DataList.All(file => file.FilePath != filePath))
-                    {
-                        if(MediaInfoTool.IsVideo(filePath))
-                            maxRes = Resolution.Max(new Resolution(MediaInfoTool.GetVideoRes(filePath)), maxRes);
-                        dgvAnimeFile.AddItem(new AnimeFile(filePath));
-                    }
-
-                if(null != maxRes)
-                {
-                    Resolution theRes = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
-                    if(null != theRes)
-                        cmbResolution.SelectedItem = theRes;
-                    else
-                    {
-                        DataAccess.NewResolution(maxRes);
-                        LoadResolutions();
-                        cmbResolution.SelectedItem = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
-                    }
-                }
-                OnNewAnimeChanged();
-            }
-        }
-
-        private void DgvAnimeFile_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            FrmRename frmRename = new FrmRename(Path.GetFileNameWithoutExtension(dgvAnimeFile.SelectedItem.Rename));
-            if(DialogResult.OK == frmRename.ShowDialog())
-                dgvAnimeFile.UpdateCurrSelectedItem((ref AnimeFile file) => file.Rename = string.Concat(frmRename.NewName, Path.GetExtension(file.FilePath)));
-        }
-
-        private void FrmNewAnime_Load(object sender, EventArgs e)
-        {
-            LoadAnimeFile();
-            LoadResolutions();
-            LoadProducers();
-            LoadTags();
-            LoadVoiceActors();
-            LoadCast();
-        }
-
-        private void BtnManageProducer_Click(object sender, EventArgs e)
-        {
-            new FrmProducer().ShowDialog();
-            LoadProducers();
-        }
-
-        private void BtnManageTag_Click(object sender, EventArgs e)
-        {
-            new FrmTag().ShowDialog();
-            LoadTags();
-        }
-
-        private void BtnCheckAllTag_Click(object sender, EventArgs e)
-        {
-            clstTag.CheckAll();
-        }
-
-        private void BtnReverseCheckTag_Click(object sender, EventArgs e)
-        {
-            clstTag.ReverseCheck();
-        }
-
-        private void BtnUncheckAllTag_Click(object sender, EventArgs e)
-        {
-            clstTag.UncheckAll();
-        }
-
-        private void BtnManageVoiceActor_Click(object sender, EventArgs e)
-        {
-            new FrmVoiceActor().ShowDialog();
-            LoadVoiceActors();
-        }
-
-        private void BtnNewCast_Click(object sender, EventArgs e)
-        {
-            dgvCast.AddItem(CurrCast.ShollowClone());
-            txtCharaName.Text = null;
-        }
-
-        private void MenuDgvCast_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = dgvCast.SelectedItem == null;
-        }
-
-        private void MenuDeleteCast_Click(object sender, EventArgs e)
-        {
-            dgvCast.RemoveCurrSelectedItem();
-        }
-
-        private void BtnNewAnime_Click(object sender, EventArgs e)
-        {
-            TaskNewAnime();
-        }
-
-        private void AsyncLog(string log)
-        {
-            BeginInvoke(new MethodInvoker(() => txtLog.WriteLog(log)));
-        }
-
+        private void LoadCast() => dgvCast.DataList = new CastList();
+        private void AsyncLog(string log) => BeginInvoke(new MethodInvoker(() => txtLog.WriteLog(log)));
         private async void TaskNewAnime()
         {
             await Task.Run(() =>
@@ -317,11 +181,83 @@ namespace AniSuki.View
             MessageBoxEx.Info(@"添加动画成功！");
         }
 
-        private void MenuDgvAnimeFile_Opening(object sender, CancelEventArgs e)
+        private void BtnNewFile_Click(object sender, EventArgs e)
         {
-            e.Cancel = dgvAnimeFile.SelectedItem == null;
-        }
+            OpenFileDialog fileDlg = new OpenFileDialog
+            {
+                Multiselect = true,
+                Title = @"添加文件"
+            };
+            if(DialogResult.OK == fileDlg.ShowDialog())
+            {
+                Resolution maxRes = (Resolution)cmbResolution.SelectedItem;
+                foreach(string filePath in fileDlg.FileNames)
+                {
+                    if(dgvAnimeFile.DataList.All(file => file.FilePath != filePath))
+                    {
+                        if(MediaInfoTool.IsVideo(filePath)) maxRes = Resolution.Max(new Resolution(MediaInfoTool.GetVideoRes(filePath)), maxRes);
+                        dgvAnimeFile.AddItem(new AnimeFile(filePath));
+                    }
+                }
 
+                if(null != maxRes)
+                {
+                    Resolution theRes = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
+                    if(null != theRes)
+                    {
+                        cmbResolution.SelectedItem = theRes;
+                    }
+                    else
+                    {
+                        DataAccess.NewResolution(maxRes);
+                        LoadResolutions();
+                        cmbResolution.SelectedItem = Resolutions.FirstOrDefault(res => res.ValueEquals(maxRes));
+                    }
+                }
+                OnNewAnimeChanged();
+            }
+        }
+        private void BtnNewAnime_Click(object sender, EventArgs e) => TaskNewAnime();
+        private void BtnManageProducer_Click(object sender, EventArgs e)
+        {
+            new FrmProducer().ShowDialog();
+            LoadProducers();
+        }
+        private void BtnManageTag_Click(object sender, EventArgs e)
+        {
+            new FrmTag().ShowDialog();
+            LoadTags();
+        }
+        private void BtnCheckAllTag_Click(object sender, EventArgs e) => clstTag.CheckAll();
+        private void BtnReverseCheckTag_Click(object sender, EventArgs e) => clstTag.ReverseCheck();
+        private void BtnUncheckAllTag_Click(object sender, EventArgs e) => clstTag.UncheckAll();
+        private void BtnManageVoiceActor_Click(object sender, EventArgs e)
+        {
+            new FrmVoiceActor().ShowDialog();
+            LoadVoiceActors();
+        }
+        private void BtnNewCast_Click(object sender, EventArgs e)
+        {
+            dgvCast.AddItem(CurrCast.ShollowClone());
+            txtCharaName.Text = null;
+        }
+        private void DgvAnimeFile_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            FrmRename frmRename = new FrmRename(Path.GetFileNameWithoutExtension(dgvAnimeFile.SelectedItem.Rename));
+            if(DialogResult.OK == frmRename.ShowDialog()) dgvAnimeFile.UpdateCurrSelectedItem((ref AnimeFile file) => file.Rename = string.Concat(frmRename.NewName, Path.GetExtension(file.FilePath)));
+        }
+        private void FrmNewAnime_Load(object sender, EventArgs e)
+        {
+            LoadAnimeFile();
+            LoadResolutions();
+            LoadProducers();
+            LoadTags();
+            LoadVoiceActors();
+            LoadCast();
+        }
+        private void MenuDgvCast_Opening(object sender, CancelEventArgs e) => e.Cancel = dgvCast.SelectedItem == null;
+        private void MenuDeleteCast_Click(object sender, EventArgs e) => dgvCast.RemoveCurrSelectedItem();
+        private void MenuDgvAnimeFile_Opening(object sender, CancelEventArgs e) => e.Cancel = dgvAnimeFile.SelectedItem == null;
         private void MenuDeleteAnimeFile_Click(object sender, EventArgs e)
         {
             dgvAnimeFile.RemoveCurrSelectedItem();

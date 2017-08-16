@@ -11,7 +11,9 @@ namespace AniSuki.View.Functional
             InitializeComponent();
             date.Value = oldDate;
         }
+
         public DateTime NewDate => date.Value;
+
         private void BtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
     }
 }

@@ -14,22 +14,74 @@ namespace AniSuki.Util
         private const string ConnectionString = @"server=.;database=anime;user=sa;pwd=qjsj8888";
 
         public static bool ConnectSucceed() => SqlExecutor.ConnectSucceed(ConnectionString);
-        public static IEnumerable<Producer> GetProducer() => from DataRow dr in ExecuteQuery(@"SELECT * FROM Producer ORDER BY Name ASC").Tables[0].Rows select Producer.FromDataRow(dr);
-        public static int NewProducer(Producer producer) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO Producer(Name, Website) VALUES(@Name, @Website) SELECT MAX(ID) FROM Producer", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = producer.Name}, new SqlParameter(@"@Website", SqlDbType.NVarChar) {Value = producer.Website}}));
-        public static void UpdateProducer(Producer producer) => ExecuteNonQuery(@"UPDATE Producer SET Name = @Name, Website = @Website WHERE ID = @ID", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = producer.Name}, new SqlParameter(@"@Website", SqlDbType.NVarChar) {Value = producer.Website}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = producer.ID}});
-        public static void DeleteProducer(Producer producer) => ExecuteNonQuery(@"DELETE FROM Producer WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = producer.ID}});
-        public static IEnumerable<Resolution> GetResolution() => from DataRow dr in ExecuteQuery(@"SELECT * FROM Resolution").Tables[0].Rows select Resolution.FromDataRow(dr);
-        public static int NewResolution(Resolution resolution) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO Resolution(Width, Height) VALUES(@Width, @Height) SELECT MAX(ID) FROM Resolution", new[] {new SqlParameter(@"@Width", SqlDbType.SmallInt) {Value = resolution.Width}, new SqlParameter(@"@Height", SqlDbType.SmallInt) {Value = resolution.Height}}));
-        public static void UpdateResolution(Resolution resolution) => ExecuteNonQuery(@"UPDATE Resolution SET Width = @Width, Height = @Height WHERE ID = @ID", new[] {new SqlParameter(@"@Width", SqlDbType.SmallInt) {Value = resolution.Width}, new SqlParameter(@"@Height", SqlDbType.SmallInt) {Value = resolution.Height}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = resolution.ID}});
-        public static void DeleteResolution(Resolution resolution) => ExecuteNonQuery(@"DELETE FROM Resolution WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = resolution.ID}});
-        public static IEnumerable<Tag> GetTag() => from DataRow dr in ExecuteQuery(@"SELECT * FROM Tag ORDER BY Name ASC").Tables[0].Rows select Tag.FromDataRow(dr);
-        public static int NewTag(Tag tag) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO Tag(Name) VALUES(@Name) SELECT MAX(ID) FROM Tag", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = tag.Name}}));
-        public static void UpdateTag(Tag tag) => ExecuteNonQuery(@"UPDATE Tag SET Name = @Name WHERE ID = @ID", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = tag.Name}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = tag.ID}});
-        public static void DeleteTag(Tag tag) => ExecuteNonQuery(@"DELETE FROM Tag WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = tag.ID}});
-        public static IEnumerable<VoiceActor> GetVoiceActor() => from DataRow dr in ExecuteQuery(@"SELECT * FROM VoiceActor ORDER BY Name ASC").Tables[0].Rows select VoiceActor.FromDataRow(dr);
-        public static int NewVoiceActor(VoiceActor VoiceActor) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO VoiceActor(Name) VALUES(@Name) SELECT MAX(ID) FROM VoiceActor", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = VoiceActor.Name}}));
-        public static void UpdateVoiceActor(VoiceActor VoiceActor) => ExecuteNonQuery(@"UPDATE VoiceActor SET Name = @Name WHERE ID = @ID", new[] {new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = VoiceActor.Name}, new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}});
-        public static void DeleteVoiceActor(VoiceActor VoiceActor) => ExecuteNonQuery(@"DELETE FROM VoiceActor WHERE ID = @ID", new[] {new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}});
+        public static IEnumerable<Producer> GetProducer() => from DataRow dr
+                                                             in ExecuteQuery(@"SELECT * FROM Producer ORDER BY Name ASC").Tables[0].Rows
+                                                             select Producer.FromDataRow(dr);
+        public static int NewProducer(Producer producer) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO Producer(Name, Website) VALUES(@Name, @Website) SELECT MAX(ID) FROM Producer", new[]
+        {
+            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = producer.Name},
+            new SqlParameter(@"@Website", SqlDbType.NVarChar) {Value = producer.Website}
+        }));
+        public static void UpdateProducer(Producer producer) => ExecuteNonQuery(@"UPDATE Producer SET Name = @Name, Website = @Website WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = producer.Name},
+            new SqlParameter(@"@Website", SqlDbType.NVarChar) {Value = producer.Website},
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = producer.ID}
+        });
+        public static void DeleteProducer(Producer producer) => ExecuteNonQuery(@"DELETE FROM Producer WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = producer.ID}
+        });
+        public static IEnumerable<Resolution> GetResolution() => from DataRow dr
+                                                                 in ExecuteQuery(@"SELECT * FROM Resolution").Tables[0].Rows
+                                                                 select Resolution.FromDataRow(dr);
+        public static int NewResolution(Resolution resolution) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO Resolution(Width, Height) VALUES(@Width, @Height) SELECT MAX(ID) FROM Resolution", new[]
+        {
+            new SqlParameter(@"@Width", SqlDbType.SmallInt) {Value = resolution.Width},
+            new SqlParameter(@"@Height", SqlDbType.SmallInt) {Value = resolution.Height}
+        }));
+        public static void UpdateResolution(Resolution resolution) => ExecuteNonQuery(@"UPDATE Resolution SET Width = @Width, Height = @Height WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@Width", SqlDbType.SmallInt) {Value = resolution.Width},
+            new SqlParameter(@"@Height", SqlDbType.SmallInt) {Value = resolution.Height},
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = resolution.ID}
+        });
+        public static void DeleteResolution(Resolution resolution) => ExecuteNonQuery(@"DELETE FROM Resolution WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = resolution.ID}
+        });
+        public static IEnumerable<Tag> GetTag() => from DataRow dr
+                                                   in ExecuteQuery(@"SELECT * FROM Tag ORDER BY Name ASC").Tables[0].Rows
+                                                   select Tag.FromDataRow(dr);
+        public static int NewTag(Tag tag) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO Tag(Name) VALUES(@Name) SELECT MAX(ID) FROM Tag", new[]
+        {
+            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = tag.Name}
+        }));
+        public static void UpdateTag(Tag tag) => ExecuteNonQuery(@"UPDATE Tag SET Name = @Name WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = tag.Name},
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = tag.ID}
+        });
+        public static void DeleteTag(Tag tag) => ExecuteNonQuery(@"DELETE FROM Tag WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = tag.ID}
+        });
+        public static IEnumerable<VoiceActor> GetVoiceActor() => from DataRow dr
+                                                                 in ExecuteQuery(@"SELECT * FROM VoiceActor ORDER BY Name ASC").Tables[0].Rows
+                                                                 select VoiceActor.FromDataRow(dr);
+        public static int NewVoiceActor(VoiceActor VoiceActor) => Convert.ToInt32(ExecuteScalar(@"INSERT INTO VoiceActor(Name) VALUES(@Name) SELECT MAX(ID) FROM VoiceActor", new[]
+        {
+            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = VoiceActor.Name}
+        }));
+        public static void UpdateVoiceActor(VoiceActor VoiceActor) => ExecuteNonQuery(@"UPDATE VoiceActor SET Name = @Name WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@Name", SqlDbType.NVarChar) {Value = VoiceActor.Name},
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}
+        });
+        public static void DeleteVoiceActor(VoiceActor VoiceActor) => ExecuteNonQuery(@"DELETE FROM VoiceActor WHERE ID = @ID", new[]
+        {
+            new SqlParameter(@"@ID", SqlDbType.Int) {Value = VoiceActor.ID}
+        });
         public static void NewAnime(Anime anime)
         {
             IEnumerable<Tag> tags = anime.Tags;

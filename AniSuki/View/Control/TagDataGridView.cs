@@ -5,10 +5,7 @@ namespace AniSuki.View.Control
 {
     public partial class TagDataGridView : BindingDataGridView<Tag>
     {
-        public TagDataGridView()
-        {
-            InitializeComponent();
-        }
+        public TagDataGridView() => InitializeComponent();
 
         public void SetColumns()
         {
@@ -16,20 +13,11 @@ namespace AniSuki.View.Control
             {
                 new BindingDataGridViewColumn
                 {
-                    NameAndDataPropertyName = @"ID",
-                    HeaderText = @"编号",
-                    Visible = false
-                },
-                new BindingDataGridViewColumn
-                {
                     NameAndDataPropertyName = @"Name",
                     HeaderText = @"标签名称"
                 }
             });
         }
-        protected override bool IsTheSameItem(Tag t1, Tag t2)
-        {
-            return t1.ID == t2.ID;
-        }
+        protected override bool IsTheSameItem(Tag t1, Tag t2) => t1.ID == t2.ID;
     }
 }

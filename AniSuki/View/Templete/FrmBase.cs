@@ -4,9 +4,6 @@ namespace AniSuki.View.Templete
 {
     public partial class FrmBase : Form
     {
-        public FrmBase()
-        {
-            InitializeComponent();
-        }
+        public FrmBase() => InitializeComponent();
     }
 }

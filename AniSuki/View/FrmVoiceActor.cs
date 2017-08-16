@@ -52,20 +52,14 @@ namespace AniSuki.View
             }
         }
 
-        private void OnSelectedVoiceActorChanged()
-        {
-            CurrVoiceActor = null == SelectedVoiceActor ? new VoiceActor() : SelectedVoiceActor.ShollowClone();
-        }
+        private void OnSelectedVoiceActorChanged() => CurrVoiceActor = null == SelectedVoiceActor ? new VoiceActor() : SelectedVoiceActor.ShollowClone();
         private void OnCurrVoiceActorChanged()
         {
             txtName.Text = CurrVoiceActor?.Name;
             btnNew.Enabled = !string.IsNullOrWhiteSpace(CurrVoiceActor?.Name);
             btnUpdate.Enabled = btnNew.Enabled && null != SelectedVoiceActor;
         }
-        private void OnVoiceActorsChanged()
-        {
-            dgvVoiceActor.DataList = VoiceActors;
-        }
+        private void OnVoiceActorsChanged() => dgvVoiceActor.DataList = VoiceActors;
 
         private void BindEvent()
         {
@@ -123,13 +117,7 @@ namespace AniSuki.View
                 MessageBoxEx.Error(ex.Message);
             }
         }
-        private void CmsDgvVoiceActor_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = dgvVoiceActor.SelectedItem == null;
-        }
-        private void FrmVoiceActor_Load(object sender, EventArgs e)
-        {
-            VoiceActors = new VoiceActorList(DataAccess.GetVoiceActor().ToList());
-        }
+        private void CmsDgvVoiceActor_Opening(object sender, CancelEventArgs e) => e.Cancel = dgvVoiceActor.SelectedItem == null;
+        private void FrmVoiceActor_Load(object sender, EventArgs e) => VoiceActors = new VoiceActorList(DataAccess.GetVoiceActor().ToList());
     }
 }

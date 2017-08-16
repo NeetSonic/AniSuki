@@ -52,20 +52,14 @@ namespace AniSuki.View
             }
         }
 
-        private void OnSelectedTagChanged()
-        {
-            CurrTag = null == SelectedTag ? new Tag() : SelectedTag.ShollowClone();
-        }
+        private void OnSelectedTagChanged() => CurrTag = null == SelectedTag ? new Tag() : SelectedTag.ShollowClone();
         private void OnCurrTagChanged()
         {
             txtName.Text = CurrTag?.Name;
             btnNew.Enabled = !string.IsNullOrWhiteSpace(CurrTag?.Name);
             btnUpdate.Enabled = btnNew.Enabled && null != SelectedTag;
         }
-        private void OnTagsChanged()
-        {
-            dgvTag.DataList = Tags;
-        }
+        private void OnTagsChanged() => dgvTag.DataList = Tags;
 
         private void BindEvent()
         {
@@ -123,13 +117,7 @@ namespace AniSuki.View
                 MessageBoxEx.Error(ex.Message);
             }
         }
-        private void CmsDgvTag_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = dgvTag.SelectedItem == null;
-        }
-        private void FrmTag_Load(object sender, EventArgs e)
-        {
-            Tags = new TagList(DataAccess.GetTag().ToList());
-        }
+        private void CmsDgvTag_Opening(object sender, CancelEventArgs e) => e.Cancel = dgvTag.SelectedItem == null;
+        private void FrmTag_Load(object sender, EventArgs e) => Tags = new TagList(DataAccess.GetTag().ToList());
     }
 }

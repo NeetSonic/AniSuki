@@ -18,10 +18,11 @@ namespace AniSuki.View
             InitControl();
             BindEvent();
         }
-        private Resolution _currResolution = new Resolution();
 
+        private Resolution _currResolution = new Resolution();
         private ResolutionList _resolutions;
         private Resolution _selectedResolution;
+
         private Resolution CurrResolution
         {
             get => _currResolution;
@@ -31,7 +32,6 @@ namespace AniSuki.View
                 OnCurrResolutionChanged();
             }
         }
-
         private ResolutionList Resolutions
         {
             get => _resolutions;
@@ -51,22 +51,15 @@ namespace AniSuki.View
             }
         }
 
-        private void OnSelectedResolutionChanged()
-        {
-            CurrResolution = null == SelectedResolution ? new Resolution() : SelectedResolution.ShollowClone();
-        }
+        private void OnSelectedResolutionChanged() => CurrResolution = null == SelectedResolution ? new Resolution() : SelectedResolution.ShollowClone();
         private void OnCurrResolutionChanged()
         {
             numWidth.Value = CurrResolution?.Width ?? 0.0m;
             numHeight.Value = CurrResolution?.Height ?? 0.0m;
-            ;
-            btnNew.Enabled = CurrResolution.Width > 0 && CurrResolution.Height > 0;
+            btnNew.Enabled = CurrResolution?.Width > 0 && CurrResolution?.Height > 0;
             btnUpdate.Enabled = btnNew.Enabled && null != SelectedResolution;
         }
-        private void OnResolutionsChanged()
-        {
-            dgvResolution.DataList = Resolutions;
-        }
+        private void OnResolutionsChanged() => dgvResolution.DataList = Resolutions;
 
         private void InitControl()
         {
@@ -89,10 +82,7 @@ namespace AniSuki.View
             dgvResolution.SelectionChanged += (sender, args) => SelectedResolution = ((ResolutionDataGridView)sender).SelectedItem;
         }
 
-        private void FrmResolution_Load(object sender, EventArgs e)
-        {
-            Resolutions = new ResolutionList(DataAccess.GetResolution().ToList());
-        }
+        private void FrmResolution_Load(object sender, EventArgs e) => Resolutions = new ResolutionList(DataAccess.GetResolution().ToList());
         private void BtnNew_Click(object sender, EventArgs e)
         {
             try
@@ -121,10 +111,7 @@ namespace AniSuki.View
                 MessageBoxEx.Error(ex.Message);
             }
         }
-        private void CmsDgvResolution_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = dgvResolution.SelectedItem == null;
-        }
+        private void CmsDgvResolution_Opening(object sender, CancelEventArgs e) => e.Cancel = dgvResolution.SelectedItem == null;
         private void MenuDelete_Click(object sender, EventArgs e)
         {
             try

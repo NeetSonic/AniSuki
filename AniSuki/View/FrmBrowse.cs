@@ -20,10 +20,10 @@ namespace AniSuki.View
             InitControls();
             BindEvents();
         }
+
         private Anime CurrAnime => dgvAnime.SelectedItem;
         private string CurrAnimeCoverDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name, @"Cover");
         private string CurrAnimeDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name);
-
         private string FilterName => txtFilterName.Text;
         private int? FilterProducerID => ((Producer)cmbFilterProducer.SelectedItem)?.ID;
         private int? FilterResolutionID => ((Resolution)cmbFilterResolution.SelectedItem)?.ID;
@@ -35,7 +35,7 @@ namespace AniSuki.View
             dgvAnime.SelectionChanged += (sender, args) =>
             {
                 Anime anime = dgvAnime.SelectedItem;
-                if(null == anime)
+                if(anime is null)
                 {
                     dgvTag.DataList = null;
                     dgvCast.DataList = null;
@@ -103,8 +103,7 @@ namespace AniSuki.View
         {
             Resolution oldRes = (Resolution)cmbFilterResolution.SelectedItem;
             LoadResolutions();
-            if(null != oldRes) // 还原原来选中的筛选项
-                cmbFilterResolution.SelectedIndex = cmbFilterResolution.FindStringExact(oldRes.ResolutionString);
+            if(null != oldRes) cmbFilterResolution.SelectedIndex = cmbFilterResolution.FindStringExact(oldRes.ResolutionString); // 还原原来选中的筛选项
         }
         private async void TaskSearch()
         {
@@ -114,36 +113,39 @@ namespace AniSuki.View
             IEnumerable<int> filterTagIDOr = clstFilterTagOr.Items.Cast<object>().Where((t, idx) => clstFilterTagOr.GetItemChecked(idx)).Cast<Tag>().Select(tag => tag.ID);
             IEnumerable<int> filterVoiceActorIDAnd = clstFilterVoiceActorAnd.Items.Cast<object>().Where((t, idx) => clstFilterVoiceActorAnd.GetItemChecked(idx)).Cast<VoiceActor>().Select(VoiceActor => VoiceActor.ID);
             IEnumerable<int> filterVoiceActorIDOr = clstFilterVoiceActorOr.Items.Cast<object>().Where((t, idx) => clstFilterVoiceActorOr.GetItemChecked(idx)).Cast<VoiceActor>().Select(VoiceActor => VoiceActor.ID);
-            if(!string.IsNullOrWhiteSpace(FilterName))
-                filters.Add(string.Format($@"Name LIKE N'%{FilterName.Trim()}%'"));
-            if(null != FilterProducerID)
-                filters.Add(string.Format($@"ProducerID = {FilterProducerID.Value}"));
-            if(null != FilterResolutionID)
-                filters.Add(string.Format($@"ResolutionID = {FilterResolutionID.Value}"));
-            if(null != FilterSaleDateAfter)
-                filters.Add(string.Format($@"DATEDIFF(dd, SaleDate, '{FilterSaleDateAfter.Value.ToShortDateString()}') <= 0"));
-            if(null != FilterSaleDateBefore)
-                filters.Add(string.Format($@"DATEDIFF(dd, SaleDate, '{FilterSaleDateBefore.Value.ToShortDateString()}') <= 0"));
+            if(!string.IsNullOrWhiteSpace(FilterName)) filters.Add(string.Format($@"Name LIKE N'%{FilterName.Trim()}%'"));
+            if(null != FilterProducerID) filters.Add(string.Format($@"ProducerID = {FilterProducerID.Value}"));
+            if(null != FilterResolutionID) filters.Add(string.Format($@"ResolutionID = {FilterResolutionID.Value}"));
+            if(null != FilterSaleDateAfter) filters.Add(string.Format($@"DATEDIFF(dd, SaleDate, '{FilterSaleDateAfter.Value.ToShortDateString()}') <= 0"));
+            if(null != FilterSaleDateBefore) filters.Add(string.Format($@"DATEDIFF(dd, SaleDate, '{FilterSaleDateBefore.Value.ToShortDateString()}') <= 0"));
             if(filterTagIDAnd.Any())
+            {
                 filters.Add(string.Format($@"ID IN
 	            (
 		            SELECT AnimeID FROM AnimeTag WHERE TagID IN({string.Join(@",", filterTagIDAnd)}) GROUP BY AnimeID HAVING COUNT(*) = {filterTagIDAnd.Count()}
 	            )"));
+            }
             if(filterTagIDOr.Any())
+            {
                 filters.Add(string.Format($@"ID IN
 	            (
 		            SELECT DISTINCT AnimeID FROM AnimeTag WHERE TagID IN({string.Join(@",", filterTagIDOr)})
 	            )"));
+            }
             if(filterVoiceActorIDAnd.Any())
+            {
                 filters.Add(string.Format($@"ID IN
 	            (
 		            SELECT AnimeID FROM [Cast] WHERE VoiceActorID IN({string.Join(@",", filterVoiceActorIDAnd)}) GROUP BY AnimeID HAVING COUNT(*) = {filterVoiceActorIDAnd.Count()}
 	            )"));
+            }
             if(filterVoiceActorIDOr.Any())
+            {
                 filters.Add(string.Format($@"ID IN
 	            (
 		            SELECT DISTINCT AnimeID FROM [Cast] WHERE VoiceActorID IN({string.Join(@",", filterVoiceActorIDOr)})
 	            )"));
+            }
             await Task.Run(() =>
             {
                 AnimeList animes = new AnimeList(DataAccess.GetAnime(filters).ToList());
@@ -181,10 +183,8 @@ namespace AniSuki.View
         private void BtnExplorer_Click(object sender, EventArgs e)
         {
             string dir = CurrAnimeDir;
-            if(Directory.Exists(dir))
-                FileTool.OpenDirectory(dir);
-            else
-                MessageBoxEx.Error(@"目录不存在！");
+            if(Directory.Exists(dir)) FileTool.OpenDirectory(dir);
+            else MessageBoxEx.Error(@"目录不存在！");
         }
         private void BtnFreshResolution_Click(object sender, EventArgs e)
         {
@@ -216,8 +216,7 @@ namespace AniSuki.View
                     anime.ResolutionID = newRes.ID;
                     anime.Resolution = newRes.ResolutionString;
                 });
-                if(-1 == cmbFilterResolution.FindStringExact(newRes.ResolutionString))
-                    RefreshResolution(); // 新的分辨率，更新到筛选条件中
+                if(-1 == cmbFilterResolution.FindStringExact(newRes.ResolutionString)) RefreshResolution(); // 新的分辨率，更新到筛选条件中
             }
             MessageBoxEx.Info(@"更新成功！");
         }
@@ -253,7 +252,6 @@ namespace AniSuki.View
                 dgvCast.DataList = new CastList(CurrAnime.Casts.ToList());
             }
         }
-
         private void BtnUpdateSaleDate_Click(object sender, EventArgs e)
         {
             FrmRedate dlg = new FrmRedate(CurrAnime.SaleDate);

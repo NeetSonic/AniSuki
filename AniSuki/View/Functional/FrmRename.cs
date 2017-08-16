@@ -12,6 +12,7 @@ namespace AniSuki.View.Functional
             txtName.Text = name;
             txtName.Highlight();
         }
+
         public string NewName => txtName.Text;
 
         private void BtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;

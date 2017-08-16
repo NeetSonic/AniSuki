@@ -91,13 +91,13 @@
             this.cmsDgvProducer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuDelete});
             this.cmsDgvProducer.Name = "cmsDgvProducer";
-            this.cmsDgvProducer.Size = new System.Drawing.Size(153, 50);
+            this.cmsDgvProducer.Size = new System.Drawing.Size(107, 28);
             this.cmsDgvProducer.Opening += new System.ComponentModel.CancelEventHandler(this.CmsDgvProducer_Opening);
             // 
             // menuDelete
             // 
             this.menuDelete.Name = "menuDelete";
-            this.menuDelete.Size = new System.Drawing.Size(152, 24);
+            this.menuDelete.Size = new System.Drawing.Size(106, 24);
             this.menuDelete.Text = "删除";
             this.menuDelete.Click += new System.EventHandler(this.MenuDelete_Click);
             // 

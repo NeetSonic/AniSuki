@@ -12,6 +12,7 @@ namespace AniSuki.View.Functional
             txtComment.Text = comment;
             txtComment.Highlight();
         }
+
         public string NewComment => txtComment.Text;
 
         private void BtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;

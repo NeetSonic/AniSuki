@@ -11,8 +11,6 @@ namespace AniSuki.View.Functional
 {
     public partial class FrmRecast : FrmBase
     {
-        private readonly IEnumerable<Cast> _casts;
-
         public FrmRecast(IEnumerable<Cast> casts)
         {
             _casts = casts;
@@ -21,10 +19,13 @@ namespace AniSuki.View.Functional
             BindEvents();
         }
 
+        private readonly IEnumerable<Cast> _casts;
+
         private Cast CurrCast { get; } = new Cast();
         public IEnumerable<Cast> NewCasts => (dgvCast.DataList as CastList).AsEnumerable();
 
         private void OnCurrCastChanged() => btnNewCast.Enabled = !string.IsNullOrWhiteSpace(CurrCast?.CharaName) && CurrCast?.VoiceActorID != 0;
+
         private void BindEvents()
         {
             txtCharaName.TextChanged += (sender, args) =>
@@ -35,7 +36,7 @@ namespace AniSuki.View.Functional
             cmbVoiceActor.SelectedIndexChanged += (sender, args) =>
             {
                 VoiceActor voiceActor = (VoiceActor)cmbVoiceActor.SelectedItem;
-                if(null == voiceActor)
+                if(voiceActor is null)
                 {
                     CurrCast.VoiceActorID = 0;
                     CurrCast.VoiceActor = null;
@@ -60,8 +61,7 @@ namespace AniSuki.View.Functional
             cmbVoiceActor.ValueMember = @"ID";
             cmbVoiceActor.SelectedItem = null;
         }
-        private void LoadCast()=>dgvCast.DataList = new CastList(_casts.ToList());
-        
+        private void LoadCast() => dgvCast.DataList = new CastList(_casts.ToList());
 
         private void BtnManageVoiceActor_Click(object sender, EventArgs e)
         {

@@ -5,10 +5,7 @@ namespace AniSuki.View.Control
 {
     public partial class AnimeDataGridView : BindingDataGridView<Anime>
     {
-        public AnimeDataGridView()
-        {
-            InitializeComponent();
-        }
+        public AnimeDataGridView() => InitializeComponent();
 
         public void SetColumns()
         {
@@ -17,7 +14,7 @@ namespace AniSuki.View.Control
                 new BindingDataGridViewColumn
                 {
                     NameAndDataPropertyName = @"Name",
-                    HeaderText = @"动画名称",
+                    HeaderText = @"动画名称"
                 },
                 new BindingDataGridViewColumn
                 {
@@ -36,9 +33,6 @@ namespace AniSuki.View.Control
                 }
             });
         }
-        protected override bool IsTheSameItem(Anime t1, Anime t2)
-        {
-            return t1.ID == t2.ID;
-        }
+        protected override bool IsTheSameItem(Anime t1, Anime t2) => t1.ID == t2.ID;
     }
 }

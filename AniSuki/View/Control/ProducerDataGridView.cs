@@ -6,21 +6,12 @@ namespace AniSuki.View.Control
 {
     public partial class ProducerDataGridView : BindingDataGridView<Producer>
     {
-        public ProducerDataGridView()
-        {
-            InitializeComponent();
-        }
+        public ProducerDataGridView() => InitializeComponent();
 
         public void SetColumns()
         {
             SetColumnsCore(new[]
             {
-                new BindingDataGridViewColumn
-                {
-                    NameAndDataPropertyName = @"ID",
-                    HeaderText = @"编号",
-                    Visible = false
-                },
                 new BindingDataGridViewColumn
                 {
                     NameAndDataPropertyName = @"Name",
@@ -35,9 +26,6 @@ namespace AniSuki.View.Control
                 }
             });
         }
-        protected override bool IsTheSameItem(Producer t1, Producer t2)
-        {
-            return t1.ID == t2.ID;
-        }
+        protected override bool IsTheSameItem(Producer t1, Producer t2) => t1.ID == t2.ID;
     }
 }
