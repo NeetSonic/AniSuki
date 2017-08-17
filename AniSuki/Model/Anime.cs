@@ -8,6 +8,19 @@ namespace AniSuki.Model
 {
     public sealed class Anime
     {
+        public Anime(){}
+        public Anime(DataRow row)
+        {
+            ID = row.FieldInt(nameof(ID));
+            ProducerID = row.FieldInt(nameof(ProducerID));
+            ResolutionID = row.FieldInt(nameof(ResolutionID));
+            Name = row.FieldString(nameof(Name));
+            Comment = row.FieldString(nameof(Comment));
+            Producer = row.FieldString(nameof(Producer));
+            Resolution = row.FieldString(nameof(Resolution));
+            SaleDate = row.FieldDateTime(nameof(SaleDate));
+        }
+
         public int ID { get; set; }
         public int ProducerID { get; set; }
         public int ResolutionID { get; set; }
@@ -19,18 +32,6 @@ namespace AniSuki.Model
         public DateTime SaleDate { get; set; }
         public IEnumerable<Tag> Tags { get; set; }
         public IEnumerable<Cast> Casts { get; set; }
-
-        public static Anime FromDataRow(DataRow row) => new Anime
-        {
-            ID = row.FieldInt(nameof(ID)),
-            ProducerID = row.FieldInt(nameof(ProducerID)),
-            ResolutionID = row.FieldInt(nameof(ResolutionID)),
-            Name = row.FieldString(nameof(Name)),
-            Comment = row.FieldString(nameof(Comment)),
-            Producer = row.FieldString(nameof(Producer)),
-            Resolution = row.FieldString(nameof(Resolution)),
-            SaleDate = row.FieldDateTime(nameof(SaleDate))
-        };
     }
 
     public sealed class AnimeList : Neetsonic.DataStructure.BindingList<Anime>

@@ -8,14 +8,16 @@ namespace AniSuki.Model
 {
     public sealed class VoiceActor
     {
+        public VoiceActor(){}
+        public VoiceActor(DataRow dr)
+        {
+            ID = dr.FieldInt(nameof(ID));
+            Name = dr.FieldString(nameof(Name));
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public static VoiceActor FromDataRow(DataRow dr) => new VoiceActor
-        {
-            ID = dr.FieldInt(nameof(ID)),
-            Name = dr.FieldString(nameof(Name))
-        };
         public VoiceActor ShollowClone() => (VoiceActor)MemberwiseClone();
     }
 

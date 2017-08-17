@@ -15,11 +15,17 @@ namespace AniSuki.Model
             Width = Convert.ToInt16(size.Width);
             Height = Convert.ToInt16(size.Height);
         }
-        public Resolution(string res)
+        public Resolution(string resString)
         {
-            int flag = res.IndexOf('x');
-            Width = short.Parse(res.Substring(0, flag));
-            Height = short.Parse(res.Substring(flag + 1));
+            int flag = resString.IndexOf('x');
+            Width = short.Parse(resString.Substring(0, flag));
+            Height = short.Parse(resString.Substring(flag + 1));
+        }
+        public Resolution(DataRow dr)
+        {
+            ID = dr.FieldInt(nameof(ID));
+            Width = dr.FieldShort(nameof(Width));
+            Height = dr.FieldShort(nameof(Height));
         }
 
         public int ID { get; set; }
@@ -45,13 +51,8 @@ namespace AniSuki.Model
             if(r1 < r2) return -1;
             return 0;
         }
+
         public static Resolution Max(Resolution r1, Resolution r2) => r1 > r2 ? r1 : r2;
-        public static Resolution FromDataRow(DataRow dr) => new Resolution
-        {
-            ID = dr.FieldInt(nameof(ID)),
-            Width = dr.FieldShort(nameof(Width)),
-            Height = dr.FieldShort(nameof(Height))
-        };
         public Resolution ShollowClone() => (Resolution)MemberwiseClone();
         public bool ValueEquals(Resolution res) => Width == res.Width && Height == res.Height;
     }

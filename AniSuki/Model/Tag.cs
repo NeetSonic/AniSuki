@@ -8,14 +8,16 @@ namespace AniSuki.Model
 {
     public sealed class Tag
     {
+        public Tag(){}
+        public Tag(DataRow dr)
+        {
+            ID = dr.FieldInt(nameof(ID));
+            Name = dr.FieldString(nameof(Name));
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public static Tag FromDataRow(DataRow dr) => new Tag
-        {
-            ID = dr.FieldInt(nameof(ID)),
-            Name = dr.FieldString(nameof(Name))
-        };
         public Tag ShollowClone() => (Tag)MemberwiseClone();
     }
 

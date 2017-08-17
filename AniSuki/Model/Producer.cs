@@ -8,16 +8,18 @@ namespace AniSuki.Model
 {
     public sealed class Producer
     {
+        public Producer(){}
+        public Producer(DataRow dr)
+        {
+            ID = dr.FieldInt(nameof(ID));
+            Name = dr.FieldString(nameof(Name));
+            Website = dr.FieldString(nameof(Website));
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
         public string Website { get; set; }
 
-        public static Producer FromDataRow(DataRow dr) => new Producer
-        {
-            ID = dr.FieldInt(nameof(ID)),
-            Name = dr.FieldString(nameof(Name)),
-            Website = dr.FieldString(nameof(Website))
-        };
         public Producer ShollowClone() => (Producer)MemberwiseClone();
     }
 

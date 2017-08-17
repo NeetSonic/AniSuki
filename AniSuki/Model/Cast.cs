@@ -7,16 +7,18 @@ namespace AniSuki.Model
 {
     public sealed class Cast
     {
+        public Cast() { }
+        public Cast(DataRow dr)
+        {
+            VoiceActorID = dr.FieldInt(nameof(VoiceActorID));
+            CharaName = dr.FieldString(nameof(CharaName));
+            VoiceActor = dr.FieldString(nameof(VoiceActor));
+        }
+
         public string CharaName { get; set; }
         public string VoiceActor { get; set; }
         public int VoiceActorID { get; set; }
 
-        public static Cast FromDataRow(DataRow dr) => new Cast
-        {
-            VoiceActorID = dr.FieldInt(nameof(VoiceActorID)),
-            CharaName = dr.FieldString(nameof(CharaName)),
-            VoiceActor = dr.FieldString(nameof(VoiceActor))
-        };
         public Cast ShollowClone() => (Cast)MemberwiseClone();
     }
 
