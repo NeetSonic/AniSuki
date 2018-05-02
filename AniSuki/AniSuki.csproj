@@ -253,13 +253,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Script\建表.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\Neetsonic\Neetsonic\Neetsonic.csproj">
       <Project>{028b1ec0-07a5-4216-9451-02787471acbf}</Project>
       <Name>Neetsonic</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Script\建表.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
