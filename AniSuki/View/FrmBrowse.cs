@@ -22,8 +22,8 @@ namespace AniSuki.View
         }
 
         private Anime CurrAnime => dgvAnime.SelectedItem;
-        private string CurrAnimeCoverDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name, @"Cover");
-        private string CurrAnimeDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name);
+        private string CurrAnimeCoverDir => Path.Combine(Global.Config.StorePath, dgvAnime.SelectedItem.Name, @"Cover");
+        private string CurrAnimeDir => Path.Combine(Global.Config.StorePath, dgvAnime.SelectedItem.Name);
         private string FilterName => txtFilterName.Text;
         private int? FilterProducerID => ((Producer)cmbFilterProducer.SelectedItem)?.ID;
         private int? FilterResolutionID => ((Resolution)cmbFilterResolution.SelectedItem)?.ID;

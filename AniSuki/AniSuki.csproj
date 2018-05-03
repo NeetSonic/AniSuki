@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Model\Anime.cs" />
     <Compile Include="Model\AnimeFile.cs" />
+    <Compile Include="Model\AniSukiConfig.cs" />
     <Compile Include="Model\Cast.cs" />
     <Compile Include="Model\Producer.cs" />
     <Compile Include="Model\Resolution.cs" />
@@ -57,7 +58,7 @@
     <Compile Include="Model\VoiceActor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util\Config.cs" />
+    <Compile Include="Util\Global.cs" />
     <Compile Include="Util\DataAccess.cs" />
     <Compile Include="View\Control\AnimeDataGridView.cs">
       <SubType>Component</SubType>
@@ -118,6 +119,12 @@
     </Compile>
     <Compile Include="View\FrmBrowse.Designer.cs">
       <DependentUpon>FrmBrowse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FrmConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FrmConfig.Designer.cs">
+      <DependentUpon>FrmConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FrmMain.cs">
       <SubType>Form</SubType>
@@ -202,6 +209,9 @@
     </Compile>
     <EmbeddedResource Include="View\FrmBrowse.resx">
       <DependentUpon>FrmBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FrmConfig.resx">
+      <DependentUpon>FrmConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
