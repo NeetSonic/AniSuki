@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Data;
 using Neetsonic.Tool;
+using Neetsonic.Tool.Extensions;
 
 namespace AniSuki.Model
 {

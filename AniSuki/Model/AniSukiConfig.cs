@@ -10,7 +10,7 @@ namespace AniSuki.Model
     public sealed class AniSukiConfig
     {
         private const string XmlElementStorePath = @"StorePath";
-        private readonly XmlConfigManager config = new XmlConfigManager(Path.Combine(Application.StartupPath, @"config.xml"));
+        private readonly XmlConfigTool config = new XmlConfigTool(Path.Combine(Application.StartupPath, @"config.xml"));
 
         [Browsable(false)]
         public string StorePath => config.ReadConfig(XmlElementStorePath, Application.UserAppDataPath);

@@ -7,6 +7,7 @@ using AniSuki.Util;
 using AniSuki.View.Control;
 using AniSuki.View.Templete;
 using Neetsonic.Tool;
+using Neetsonic.Tool.Extensions;
 
 namespace AniSuki.View
 {
