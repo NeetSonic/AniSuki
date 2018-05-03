@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using AniSuki.Model;
-using Neetsonic.Tool;
 using Neetsonic.Tool.Database;
 
 namespace AniSuki.Util
@@ -51,18 +50,10 @@ namespace AniSuki.Util
             }
             return animes;
         }
-        public static IEnumerable<Producer> GetProducer() => from DataRow dr
-                                                             in ExecuteQuery(@"SELECT * FROM Producer ORDER BY Name ASC").Tables[0].Rows
-                                                             select new Producer(dr);
-        public static IEnumerable<Resolution> GetResolution() => from DataRow dr
-                                                                 in ExecuteQuery(@"SELECT * FROM Resolution").Tables[0].Rows
-                                                                 select new Resolution(dr);
-        public static IEnumerable<Tag> GetTag() => from DataRow dr
-                                                   in ExecuteQuery(@"SELECT * FROM Tag ORDER BY Name ASC").Tables[0].Rows
-                                                   select new Tag(dr);
-        public static IEnumerable<VoiceActor> GetVoiceActor() => from DataRow dr
-                                                                 in ExecuteQuery(@"SELECT * FROM VoiceActor ORDER BY Name ASC").Tables[0].Rows
-                                                                 select new VoiceActor(dr);
+        public static IEnumerable<Producer> GetProducer() => from DataRow dr in ExecuteQuery(@"SELECT * FROM Producer ORDER BY Name ASC").Tables[0].Rows select new Producer(dr);
+        public static IEnumerable<Resolution> GetResolution() => from DataRow dr in ExecuteQuery(@"SELECT * FROM Resolution").Tables[0].Rows select new Resolution(dr);
+        public static IEnumerable<Tag> GetTag() => from DataRow dr in ExecuteQuery(@"SELECT * FROM Tag ORDER BY Name ASC").Tables[0].Rows select new Tag(dr);
+        public static IEnumerable<VoiceActor> GetVoiceActor() => from DataRow dr in ExecuteQuery(@"SELECT * FROM VoiceActor ORDER BY Name ASC").Tables[0].Rows select new VoiceActor(dr);
         public static void NewAnime(Anime anime)
         {
             IEnumerable<Tag> tags = anime.Tags;
