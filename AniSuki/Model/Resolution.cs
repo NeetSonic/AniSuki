@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using Neetsonic.Tool;
+using Neetsonic.Tool.Extensions;
 
 namespace AniSuki.Model
 {

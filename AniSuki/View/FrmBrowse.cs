@@ -9,6 +9,7 @@ using AniSuki.Util;
 using AniSuki.View.Functional;
 using AniSuki.View.Templete;
 using Neetsonic.Tool;
+using Neetsonic.Tool.Extensions;
 
 namespace AniSuki.View
 {
@@ -22,8 +23,8 @@ namespace AniSuki.View
         }
 
         private Anime CurrAnime => dgvAnime.SelectedItem;
-        private string CurrAnimeCoverDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name, @"Cover");
-        private string CurrAnimeDir => Path.Combine(Config.RootDir, dgvAnime.SelectedItem.Name);
+        private string CurrAnimeCoverDir => Path.Combine(Global.Config.StorePath, dgvAnime.SelectedItem.Name, @"Cover");
+        private string CurrAnimeDir => Path.Combine(Global.Config.StorePath, dgvAnime.SelectedItem.Name);
         private string FilterName => txtFilterName.Text;
         private int? FilterProducerID => ((Producer)cmbFilterProducer.SelectedItem)?.ID;
         private int? FilterResolutionID => ((Resolution)cmbFilterResolution.SelectedItem)?.ID;

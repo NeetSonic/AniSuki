@@ -10,6 +10,7 @@ using AniSuki.Util;
 using AniSuki.View.Functional;
 using AniSuki.View.Templete;
 using Neetsonic.Tool;
+using Neetsonic.Tool.Extensions;
 
 namespace AniSuki.View
 {
@@ -155,7 +156,7 @@ namespace AniSuki.View
             {
                 AsyncLog(@"开始添加动画...");
                 AsyncLog(@"创建动画结构目录...");
-                string animeDir = Path.Combine(Config.RootDir, NewAnime.Name);
+                string animeDir = Path.Combine(Global.Config.StorePath, NewAnime.Name);
                 string coverDir = Path.Combine(animeDir, @"Cover");
                 Directory.CreateDirectory(animeDir);
                 Directory.CreateDirectory(coverDir);

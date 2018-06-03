@@ -36,13 +36,16 @@
             this.menuVoiceActor = new System.Windows.Forms.ToolStripMenuItem();
             this.btnNewAnime = new System.Windows.Forms.Button();
             this.btnBrowse = new System.Windows.Forms.Button();
+            this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.修改配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuMain
             // 
             this.menuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuManage});
+            this.menuManage,
+            this.设置ToolStripMenuItem});
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Size = new System.Drawing.Size(303, 25);
@@ -110,6 +113,21 @@
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_Click);
             // 
+            // 设置ToolStripMenuItem
+            // 
+            this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.修改配置ToolStripMenuItem});
+            this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
+            this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.设置ToolStripMenuItem.Text = "设置";
+            // 
+            // 修改配置ToolStripMenuItem
+            // 
+            this.修改配置ToolStripMenuItem.Name = "修改配置ToolStripMenuItem";
+            this.修改配置ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.修改配置ToolStripMenuItem.Text = "修改配置";
+            this.修改配置ToolStripMenuItem.Click += new System.EventHandler(this.修改配置ToolStripMenuItem_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -138,5 +156,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuVoiceActor;
         private System.Windows.Forms.Button btnNewAnime;
         private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 修改配置ToolStripMenuItem;
     }
 }
