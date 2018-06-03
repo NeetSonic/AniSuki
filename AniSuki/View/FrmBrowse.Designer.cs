@@ -321,7 +321,7 @@
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(65, 20);
             label1.TabIndex = 2;
-            label1.Text = "名称名称";
+            label1.Text = "动画名称";
             // 
             // txtFilterName
             // 
